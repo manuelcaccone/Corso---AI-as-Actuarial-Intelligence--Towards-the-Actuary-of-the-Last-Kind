@@ -1,4 +1,4 @@
-![Copertina del Corso](1. Immagini/header.png)
+![Copertina del Corso](Immagini/header.png)
 
 # AI as Actuarial Intelligence: Towards the Actuary of the Last Kind
 
