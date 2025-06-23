@@ -1,0 +1,329 @@
+---
+title: "Report Trimestrale Portafoglio Polizze Auto"
+subtitle: "`r paste0('Q', params$trimestre, ' ', params$anno, ' - Analisi Performance e Sinistralità')`"
+author: "Direzione Tecnica Assicurazioni"
+date: "`r format(Sys.Date(), '%d %B %Y')`"
+output: 
+  word_document:
+    toc: true
+    toc_depth: 2
+    fig_caption: true
+    fig_width: 7
+    fig_height: 5
+params:
+  trimestre: 3
+  anno: 2024
+  threshold_loss_ratio: 65
+  threshold_frequenza: 10
+  portafoglio_size: 15000
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(ggplot2)
+library(dplyr)
+library(knitr)
+library(formattable)
+library(reshape2)
+
+# Funzione per generare dati realistici basati sui parametri
+genera_dati_trimestre <- function(trimestre, anno, size_portafoglio) {
+  set.seed(trimestre * anno)  # Per riproducibilità
+  
+  # Stagionalità per trimestre
+  stagionalita <- switch(trimestre,
+    "1" = c(0.95, 1.00, 1.05),  # Q1: crescita graduale
+    "2" = c(1.05, 0.98, 1.02),  # Q2: calo estivo
+    "3" = c(0.98, 0.92, 1.10),  # Q3: calo agosto, ripresa settembre
+    "4" = c(1.08, 1.12, 0.95)   # Q4: picco natalizio, calo dicembre
+  )
+  
+  mesi <- switch(trimestre,
+    "1" = c("Gennaio", "Febbraio", "Marzo"),
+    "2" = c("Aprile", "Maggio", "Giugno"), 
+    "3" = c("Luglio", "Agosto", "Settembre"),
+    "4" = c("Ottobre", "Novembre", "Dicembre")
+  )
+  
+  # Premio base con trend annuale
+  premio_base <- 280000 + (anno - 2024) * 15000
+  
+  data.frame(
+    mese = mesi,
+    premi_raccolti = round(premio_base * stagionalita * runif(3, 0.95, 1.05)),
+    sinistri_pagati = round(premio_base * stagionalita * runif(3, 0.60, 0.75)),
+    n_polizze = round(size_portafoglio * runif(3, 0.98, 1.02)),
+    n_sinistri = round(size_portafoglio * runif(3, 0.07, 0.09)),
+    stringsAsFactors = FALSE
+  )
+}
+
+# Generazione dati basata sui parametri
+dati_correnti <- genera_dati_trimestre(params$trimestre, params$anno, params$portafoglio_size)
+
+# Dati per fasce d'età (variabili per trimestre)
+set.seed(params$trimestre * params$anno + 100)
+dati_eta <- data.frame(
+  fascia_eta = c("18-25", "26-35", "36-50", "51-65", "65+"),
+  n_polizze = round(c(0.08, 0.25, 0.35, 0.23, 0.09) * params$portafoglio_size * runif(5, 0.9, 1.1)),
+  sinistri = round(c(120, 280, 350, 180, 90) * runif(5, 0.8, 1.2)),
+  premio_medio = round(c(850, 720, 650, 580, 520) * runif(5, 0.95, 1.05)),
+  stringsAsFactors = FALSE
+)
+
+# Dati geografici (variabili)
+set.seed(params$trimestre * params$anno + 200)
+dati_geografici <- data.frame(
+  regione = c("Nord", "Centro", "Sud"),
+  n_polizze = round(c(0.45, 0.28, 0.27) * params$portafoglio_size * runif(3, 0.9, 1.1)),
+  sinistri = round(c(380, 250, 290) * runif(3, 0.85, 1.15)),
+  premio_medio = round(c(680, 720, 590) * runif(3, 0.95, 1.05)),
+  stringsAsFactors = FALSE
+)
+
+# Calcoli KPI dinamici
+totale_premi_correnti <- sum(dati_correnti$premi_raccolti)
+totale_sinistri_correnti <- sum(dati_correnti$sinistri_pagati)
+loss_ratio_corrente <- round((totale_sinistri_correnti / totale_premi_correnti) * 100, 1)
+frequenza_corrente <- round((sum(dati_correnti$n_sinistri) / mean(dati_correnti$n_polizze)) * 100, 1)
+costo_medio_corrente <- round(totale_sinistri_correnti / sum(dati_correnti$n_sinistri), 0)
+
+# Dati trimestre precedente per confronto
+trimestre_prec <- ifelse(params$trimestre == 1, 4, params$trimestre - 1)
+anno_prec <- ifelse(params$trimestre == 1, params$anno - 1, params$anno)
+dati_precedenti <- genera_dati_trimestre(trimestre_prec, anno_prec, params$portafoglio_size)
+
+totale_premi_prec <- sum(dati_precedenti$premi_raccolti)
+totale_sinistri_prec <- sum(dati_precedenti$sinistri_pagati)
+loss_ratio_prec <- round((totale_sinistri_prec / totale_premi_prec) * 100, 1)
+frequenza_prec <- round((sum(dati_precedenti$n_sinistri) / mean(dati_precedenti$n_polizze)) * 100, 1)
+
+# Funzioni per alert condizionali
+alert_loss_ratio <- ifelse(loss_ratio_corrente > params$threshold_loss_ratio, 
+                          "⚠️ ALERT", "✅ OK")
+alert_frequenza <- ifelse(frequenza_corrente > params$threshold_frequenza, 
+                         "⚠️ ALERT", "✅ OK")
+
+# Nomi dinamici per trimestri
+nome_trimestre_corrente <- paste0("Q", params$trimestre, " ", params$anno)
+nome_trimestre_precedente <- paste0("Q", trimestre_prec, " ", anno_prec)
+```
+
+# Executive Summary
+
+Il portafoglio polizze auto ha chiuso il `r nome_trimestre_corrente` con **€`r format(totale_premi_correnti, big.mark = ".", decimal.mark = ",")`** di premi raccolti e **€`r format(totale_sinistri_correnti, big.mark = ".", decimal.mark = ",")`** di sinistri pagati, registrando un **loss ratio del `r loss_ratio_corrente`%**. 
+
+**Indicatori chiave `r nome_trimestre_corrente`:**
+- **Premi raccolti**: €`r format(totale_premi_correnti, big.mark = ".", decimal.mark = ",")` (`r ifelse(totale_premi_correnti > totale_premi_prec, paste0("+", round(((totale_premi_correnti/totale_premi_prec)-1)*100,1), "%"), paste0(round(((totale_premi_correnti/totale_premi_prec)-1)*100,1), "%"))` vs `r nome_trimestre_precedente`)
+- **Loss Ratio**: `r loss_ratio_corrente`% (`r ifelse(loss_ratio_corrente > loss_ratio_prec, paste0("+", loss_ratio_corrente - loss_ratio_prec), loss_ratio_corrente - loss_ratio_prec)` punti vs `r nome_trimestre_precedente`) `r alert_loss_ratio`
+- **Frequenza sinistri**: `r frequenza_corrente`% (`r ifelse(frequenza_corrente > frequenza_prec, paste0("+", round(frequenza_corrente - frequenza_prec, 1)), round(frequenza_corrente - frequenza_prec, 1))` punti vs `r nome_trimestre_precedente`) `r alert_frequenza`
+- **Costo medio sinistro**: €`r format(costo_medio_corrente, big.mark = ".", decimal.mark = ",")`
+- **Numero polizze attive**: `r format(round(mean(dati_correnti$n_polizze)), big.mark = ".", decimal.mark = ",")`
+
+```{r alert-condizionale, results='asis'}
+if(loss_ratio_corrente > params$threshold_loss_ratio) {
+  cat("**🚨 ALERT LOSS RATIO**: Il loss ratio ha superato la soglia target del", params$threshold_loss_ratio, "%. Raccomandato intervento immediato.\n\n")
+}
+
+if(frequenza_corrente > params$threshold_frequenza) {
+  cat("**🚨 ALERT FREQUENZA**: La frequenza sinistri ha superato la soglia del", params$threshold_frequenza, "%. Monitoraggio intensivo richiesto.\n\n")
+}
+```
+
+# Analisi della Performance Mensile
+
+```{r grafico-trend-mensile, fig.cap=paste("Andamento Mensile Premi e Sinistri", nome_trimestre_corrente)}
+dati_long <- reshape2::melt(dati_correnti[,c("mese", "premi_raccolti", "sinistri_pagati")], 
+                           id.vars = "mese")
+
+ggplot(dati_long, aes(x = factor(mese, levels = dati_correnti$mese), 
+                      y = value, 
+                      fill = variable)) +
+  geom_bar(stat = "identity", position = "dodge", alpha = 0.8) +
+  scale_fill_manual(values = c("#2E86AB", "#A43820"), 
+                    labels = c("Premi Raccolti", "Sinistri Pagati")) +
+  scale_y_continuous(labels = function(x) paste0("€", format(x/1000, big.mark = ".", decimal.mark = ","), "K")) +
+  labs(title = paste("Trend Mensile Premi vs Sinistri -", nome_trimestre_corrente),
+       x = "Mese", 
+       y = "Importo (€K)",
+       fill = "Tipologia") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+```{r tabella-mensile}
+tab_mensile <- dati_correnti %>%
+  mutate(
+    loss_ratio = round((sinistri_pagati / premi_raccolti) * 100, 1),
+    frequenza = round((n_sinistri / n_polizze) * 100, 1),
+    costo_medio = round(sinistri_pagati / n_sinistri, 0),
+    # Evidenziazione condizionale
+    alert_lr = ifelse(loss_ratio > params$threshold_loss_ratio, " ⚠️", ""),
+    alert_freq = ifelse(frequenza > params$threshold_frequenza, " ⚠️", "")
+  ) %>%
+  select(
+    Mese = mese,
+    `Premi (€)` = premi_raccolti,
+    `Sinistri (€)` = sinistri_pagati,
+    `N° Polizze` = n_polizze,
+    `N° Sinistri` = n_sinistri,
+    `Loss Ratio (%)` = loss_ratio,
+    `Alert LR` = alert_lr,
+    `Frequenza (%)` = frequenza,
+    `Alert Freq` = alert_freq,
+    `Costo Medio (€)` = costo_medio
+  )
+
+kable(tab_mensile, 
+      caption = paste("Dettaglio Performance Mensile", nome_trimestre_corrente),
+      format.args = list(big.mark = ".", decimal.mark = ","),
+      align = c("l", rep("r", 9)))
+```
+
+# Analisi per Fascia d'Età
+
+```{r grafico-eta, fig.cap="Distribuzione Loss Ratio per Fascia d'Età"}
+dati_eta_analisi <- dati_eta %>%
+  mutate(
+    frequenza = round((sinistri / n_polizze) * 100, 1),
+    premi_totali = n_polizze * premio_medio,
+    sinistri_totali = sinistri * costo_medio_corrente,
+    loss_ratio = round((sinistri_totali / premi_totali) * 100, 1)
+  )
+
+ggplot(dati_eta_analisi, aes(x = fascia_eta, y = loss_ratio, fill = fascia_eta)) +
+  geom_col(alpha = 0.8, show.legend = FALSE) +
+  geom_hline(yintercept = params$threshold_loss_ratio, color = "red", linetype = "dashed", size = 1) +
+  geom_text(aes(label = paste0(loss_ratio, "%")), vjust = -0.5, fontface = "bold") +
+  scale_fill_brewer(type = "qual", palette = "Set2") +
+  labs(title = "Loss Ratio per Fascia d'Età",
+       subtitle = paste("Linea rossa: target", params$threshold_loss_ratio, "%"),
+       x = "Fascia d'Età", 
+       y = "Loss Ratio (%)") +
+  theme_minimal() +
+  ylim(0, max(dati_eta_analisi$loss_ratio) * 1.1)
+```
+
+```{r analisi-eta-critica, results='asis'}
+fasce_critiche <- dati_eta_analisi %>%
+  filter(loss_ratio > params$threshold_loss_ratio) %>%
+  arrange(desc(loss_ratio))
+
+if(nrow(fasce_critiche) > 0) {
+  cat("**Criticità identificate:**\n")
+  for(i in 1:nrow(fasce_critiche)) {
+    cat("- Fascia", fasce_critiche$fascia_eta[i], ": loss ratio", fasce_critiche$loss_ratio[i], 
+        "% (", fasce_critiche$loss_ratio[i] - params$threshold_loss_ratio, "+ punti sopra target)\n")
+  }
+  cat("\n")
+}
+```
+
+# Analisi Geografica
+
+```{r grafico-geografico, fig.cap="Performance per Area Geografica"}
+dati_geo_analisi <- dati_geografici %>%
+  mutate(
+    frequenza = round((sinistri / n_polizze) * 100, 1),
+    premi_totali = n_polizze * premio_medio,
+    sinistri_totali = sinistri * costo_medio_corrente,
+    loss_ratio = round((sinistri_totali / premi_totali) * 100, 1)
+  )
+
+ggplot(dati_geo_analisi, aes(x = reorder(regione, -loss_ratio), y = loss_ratio, fill = regione)) +
+  geom_col(alpha = 0.8, show.legend = FALSE) +
+  geom_hline(yintercept = params$threshold_loss_ratio, color = "red", linetype = "dashed", size = 1) +
+  geom_text(aes(label = paste0(loss_ratio, "%")), vjust = -0.5, fontface = "bold") +
+  scale_fill_manual(values = c("#E69F00", "#56B4E9", "#009E73")) +
+  labs(title = "Loss Ratio per Area Geografica",
+       subtitle = paste("Linea rossa: target", params$threshold_loss_ratio, "%"),
+       x = "Regione", 
+       y = "Loss Ratio (%)") +
+  theme_minimal()
+```
+
+# Confronto con Trimestre Precedente
+
+```{r confronto-trimestrale}
+var_premi <- round(((totale_premi_correnti / totale_premi_prec) - 1) * 100, 1)
+var_sinistri <- round(((totale_sinistri_correnti / totale_sinistri_prec) - 1) * 100, 1)
+var_loss_ratio <- loss_ratio_corrente - loss_ratio_prec
+var_frequenza <- round(frequenza_corrente - frequenza_prec, 1)
+
+confronto <- data.frame(
+  Indicatore = c("Premi Raccolti (€M)", "Sinistri Pagati (€M)", "Loss Ratio (%)", 
+                 "Frequenza (%)", "Costo Medio (€)"),
+  Precedente = c(format(totale_premi_prec/1000000, digits = 2), 
+                 format(totale_sinistri_prec/1000000, digits = 2), 
+                 loss_ratio_prec, frequenza_prec, 
+                 round(totale_sinistri_prec / sum(dati_precedenti$n_sinistri), 0)),
+  Corrente = c(format(totale_premi_correnti/1000000, digits = 2),
+               format(totale_sinistri_correnti/1000000, digits = 2),
+               loss_ratio_corrente, frequenza_corrente, costo_medio_corrente),
+  Variazione = c(paste0(ifelse(var_premi > 0, "+", ""), var_premi, "%"),
+                 paste0(ifelse(var_sinistri > 0, "+", ""), var_sinistri, "%"),
+                 paste0(ifelse(var_loss_ratio > 0, "+", ""), var_loss_ratio, "pp"),
+                 paste0(ifelse(var_frequenza > 0, "+", ""), var_frequenza, "pp"),
+                 paste0(ifelse(costo_medio_corrente > (totale_sinistri_prec / sum(dati_precedenti$n_sinistri)), "+€", "-€"), 
+                        abs(costo_medio_corrente - round(totale_sinistri_prec / sum(dati_precedenti$n_sinistri), 0)))),
+  stringsAsFactors = FALSE
+)
+
+colnames(confronto) <- c("Indicatore", nome_trimestre_precedente, nome_trimestre_corrente, "Variazione")
+
+kable(confronto, 
+      caption = paste("Confronto Performance", nome_trimestre_precedente, "vs", nome_trimestre_corrente),
+      align = c("l", "r", "r", "r"))
+```
+
+# Proiezioni Trimestre Successivo
+
+```{r proiezioni}
+prossimo_trim <- ifelse(params$trimestre == 4, 1, params$trimestre + 1)
+prossimo_anno <- ifelse(params$trimestre == 4, params$anno + 1, params$anno)
+nome_prossimo <- paste0("Q", prossimo_trim, " ", prossimo_anno)
+
+# Proiezione basata su trend
+crescita_stimata <- ifelse(var_premi > 0, min(var_premi, 8), max(var_premi, -5))
+premi_stimati <- round(totale_premi_correnti * (1 + crescita_stimata/100))
+target_loss_ratio <- max(params$threshold_loss_ratio, loss_ratio_corrente - 2)  # Miglioramento graduale
+sinistri_stimati <- round(premi_stimati * target_loss_ratio / 100)
+```
+
+Basandosi sui trend `r nome_trimestre_corrente`, si prevede per `r nome_prossimo`:
+- **Premi stimati**: €`r format(premi_stimati, big.mark = ".", decimal.mark = ",")` (`r ifelse(crescita_stimata > 0, paste0("+", crescita_stimata), crescita_stimata)`% vs `r nome_trimestre_corrente`)
+- **Loss ratio target**: `r target_loss_ratio`% (`r ifelse(target_loss_ratio < loss_ratio_corrente, "miglioramento", "mantenimento")` per azioni correttive)
+- **Sinistri stimati**: €`r format(sinistri_stimati, big.mark = ".", decimal.mark = ",")`
+
+**Raccomandazioni strategiche personalizzate:**
+
+```{r raccomandazioni, results='asis'}
+if(loss_ratio_corrente > params$threshold_loss_ratio + 5) {
+  cat("1. **INTERVENTO URGENTE**: Loss ratio critico - revisione prezzi immediata\n")
+} else if(loss_ratio_corrente > params$threshold_loss_ratio) {
+  cat("1. **Revisione Pricing**: Incremento tariffe selettivo per fasce critiche\n")
+} else {
+  cat("1. **Mantenimento**: Performance in linea - monitoraggio preventivo\n")
+}
+
+if(any(dati_geo_analisi$loss_ratio > params$threshold_loss_ratio + 3)) {
+  regioni_critiche <- dati_geo_analisi$regione[dati_geo_analisi$loss_ratio > params$threshold_loss_ratio + 3]
+  cat("2. **Focus Geografico**: Analisi approfondita", paste(regioni_critiche, collapse = ", "), "\n")
+} else {
+  cat("2. **Equilibrio Geografico**: Performance bilanciata per aree\n")
+}
+
+if(frequenza_corrente > params$threshold_frequenza) {
+  cat("3. **Prevenzione**: Programma sicurezza stradale urgente\n")
+} else {
+  cat("3. **Prevenzione**: Mantenimento programmi sicurezza attuali\n")
+}
+
+cat("4. **Monitoraggio**: KPI", ifelse(loss_ratio_corrente > params$threshold_loss_ratio, "settimanali", "mensili"), "per early warning\n")
+```
+
+---
+
+*Report parametrico generato il `r format(Sys.Date(), "%d/%m/%Y")` per `r nome_trimestre_corrente`*  
+*Parametri: Loss Ratio Target = `r params$threshold_loss_ratio`%, Frequenza Target = `r params$threshold_frequenza`%*  
+*Prossimo aggiornamento: `r nome_prossimo`*

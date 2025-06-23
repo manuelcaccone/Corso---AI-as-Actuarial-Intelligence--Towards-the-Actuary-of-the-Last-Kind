@@ -1,0 +1,408 @@
+---
+title: "Dashboard Portafoglio Polizze Auto Q3 2024"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: scroll
+    theme: cosmo
+    source_code: embed
+    navbar:
+      - { title: "Report PDF", href: "#", align: right }
+      - { title: "Export Data", href: "#", align: right }
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(plotly)
+library(DT)
+library(dplyr)
+library(ggplot2)
+library(reshape2)
+library(leaflet)
+library(kableExtra)
+
+# Generazione dataset ricco per Q3 2024
+set.seed(42)
+
+# Dati mensili Q3 2024
+dati_mensili <- data.frame(
+  mese = c("Luglio", "Agosto", "Settembre"),
+  data = as.Date(c("2024-07-01", "2024-08-01", "2024-09-01")),
+  premi_raccolti = c(920000, 890000, 990000),
+  sinistri_pagati = c(610000, 595000, 695000),
+  n_polizze = c(14800, 14900, 15200),
+  n_sinistri = c(385, 370, 425),
+  stringsAsFactors = FALSE
+) %>%
+  mutate(
+    loss_ratio = round((sinistri_pagati / premi_raccolti) * 100, 1),
+    frequenza = round((n_sinistri / n_polizze) * 100, 1),
+    costo_medio = round(sinistri_pagati / n_sinistri, 0)
+  )
+
+# Dati storici per trend (ultimi 12 mesi)
+dati_storici <- data.frame(
+  mese = 1:12,
+  data = seq(as.Date("2023-10-01"), as.Date("2024-09-01"), by = "month"),
+  mese_nome = c("Ott 23", "Nov 23", "Dic 23", "Gen 24", "Feb 24", "Mar 24",
+                "Apr 24", "Mag 24", "Giu 24", "Lug 24", "Ago 24", "Set 24"),
+  premi = c(850, 920, 1100, 880, 900, 950, 980, 890, 920, 920, 890, 990) * 1000,
+  sinistri = c(540, 580, 715, 580, 600, 620, 650, 580, 590, 610, 595, 695) * 1000
+) %>%
+  mutate(
+    loss_ratio = round((sinistri / premi) * 100, 1),
+    trimestre = case_when(
+      mese %in% 1:3 ~ "Q4 2023",
+      mese %in% 4:6 ~ "Q1 2024", 
+      mese %in% 7:9 ~ "Q2 2024",
+      mese %in% 10:12 ~ "Q3 2024"
+    )
+  )
+
+# Dati per fasce d'età (dettagliati)
+dati_eta <- data.frame(
+  fascia_eta = c("18-25", "26-35", "36-50", "51-65", "65+"),
+  n_polizze = c(1200, 3800, 5200, 3500, 1500),
+  sinistri = c(148, 342, 416, 245, 129),
+  premio_medio = c(850, 720, 650, 580, 520),
+  stringsAsFactors = FALSE
+) %>%
+  mutate(
+    premi_totali = n_polizze * premio_medio,
+    sinistri_totali = sinistri * 1630,  # costo medio
+    loss_ratio = round((sinistri_totali / premi_totali) * 100, 1),
+    frequenza = round((sinistri / n_polizze) * 100, 1),
+    quota_portafoglio = round((n_polizze / sum(n_polizze)) * 100, 1)
+  )
+
+# Dati geografici con dettaglio provinciale
+province_data <- data.frame(
+  provincia = c("Milano", "Roma", "Napoli", "Torino", "Palermo", "Genova", 
+                "Bologna", "Firenze", "Bari", "Catania", "Venezia", "Verona"),
+  regione = c("Nord", "Centro", "Sud", "Nord", "Sud", "Nord",
+              "Nord", "Centro", "Sud", "Sud", "Nord", "Nord"),
+  lat = c(45.464, 41.903, 40.851, 45.070, 38.116, 44.405,
+          44.494, 43.769, 41.117, 37.502, 45.440, 45.438),
+  lng = c(9.190, 12.496, 14.268, 7.686, 13.361, 8.946,
+          11.342, 11.256, 16.872, 15.087, 12.332, 10.992),
+  n_polizze = c(2100, 1800, 1200, 1500, 950, 800, 1100, 900, 850, 700, 750, 650),
+  stringsAsFactors = FALSE
+) %>%
+  mutate(
+    premi_medi = case_when(
+      regione == "Nord" ~ runif(n(), 650, 720),
+      regione == "Centro" ~ runif(n(), 680, 750),
+      regione == "Sud" ~ runif(n(), 550, 620)
+    ),
+    sinistri_count = round(n_polizze * runif(n(), 0.07, 0.09)),
+    premi_totali = n_polizze * premi_medi,
+    sinistri_totali = sinistri_count * runif(n(), 1500, 1700),
+    loss_ratio = round((sinistri_totali / premi_totali) * 100, 1),
+    frequenza = round((sinistri_count / n_polizze) * 100, 1)
+  )
+
+# KPI principali
+totale_premi_q3 <- sum(dati_mensili$premi_raccolti)
+totale_sinistri_q3 <- sum(dati_mensili$sinistri_pagati)
+loss_ratio_q3 <- round((totale_sinistri_q3 / totale_premi_q3) * 100, 1)
+frequenza_q3 <- round((sum(dati_mensili$n_sinistri) / mean(dati_mensili$n_polizze)) * 100, 1)
+costo_medio_q3 <- round(totale_sinistri_q3 / sum(dati_mensili$n_sinistri), 0)
+
+# Confronto Q2
+totale_premi_q2 <- 2650000
+loss_ratio_q2 <- 63.9
+variazione_lr <- loss_ratio_q3 - loss_ratio_q2
+variazione_premi <- round(((totale_premi_q3 / totale_premi_q2) - 1) * 100, 1)
+```
+
+# Executive Summary {.sidebar}
+
+## KPI Principali Q3 2024
+
+### Performance Globale
+- **Premi Raccolti**: €`r format(totale_premi_q3/1000000, digits=2)`M
+- **Loss Ratio**: `r loss_ratio_q3`% `r ifelse(variazione_lr > 0, "📈", "📉")` (`r ifelse(variazione_lr > 0, "+", "")`r variazione_lr`pp vs Q2)
+- **Frequenza**: `r frequenza_q3`%
+- **Costo Medio**: €`r format(costo_medio_q3, big.mark=" ")`
+
+### Alert Status
+```{r echo=FALSE}
+if(loss_ratio_q3 > 65) {
+  cat("🚨 **ALERT**: Loss ratio sopra target (65%)")
+} else {
+  cat("✅ **OK**: Performance in linea")
+}
+```
+
+### Trend
+- Crescita premi: +`r variazione_premi`% vs Q2
+- Peggior mese: Settembre (LR 70.2%)
+- Migliore area: Sud Italia (60.8%)
+- Fascia critica: 18-25 anni (75.3%)
+
+---
+
+**Raccomandazioni**:
+1. Revisione pricing giovani
+2. Analisi Centro Italia  
+3. Monitoraggio settembre
+4. Programma prevenzione
+
+# Dashboard
+
+## Column {data-width=400}
+
+### Evoluzione Loss Ratio (12 Mesi)
+
+```{r}
+# Grafico trend interattivo
+p1 <- plot_ly(dati_storici, x = ~data, y = ~loss_ratio, type = 'scatter', mode = 'lines+markers',
+              line = list(color = '#2E86AB', width = 3),
+              marker = list(size = 8, color = '#2E86AB'),
+              hovertemplate = "Data: %{x}<br>Loss Ratio: %{y}%<br><extra></extra>",
+              name = "Loss Ratio") %>%
+  add_lines(y = rep(65, nrow(dati_storici)), name = "Target 65%",
+            line = list(color = "red", dash = "dash", width = 2)) %>%
+  layout(
+    title = list(text = "Evoluzione Loss Ratio - Ultimi 12 Mesi", font = list(size = 16)),
+    xaxis = list(title = "Mese", showgrid = TRUE),
+    yaxis = list(title = "Loss Ratio (%)", range = c(50, 80), showgrid = TRUE),
+    hovermode = "x unified",
+    showlegend = TRUE,
+    plot_bgcolor = 'rgba(0,0,0,0)',
+    paper_bgcolor = 'rgba(0,0,0,0)'
+  ) %>%
+  config(displayModeBar = FALSE)
+
+p1
+```
+
+### Performance per Fascia d'Età
+
+```{r}
+# Grafico a barre fasce d'età
+colors_eta <- ifelse(dati_eta$loss_ratio > 65, '#E74C3C', '#2ECC71')
+
+p2 <- plot_ly(dati_eta, x = ~fascia_eta, y = ~loss_ratio, type = 'bar',
+              marker = list(color = colors_eta, line = list(color = 'rgb(8,48,107)', width = 1)),
+              text = ~paste0(loss_ratio, "%"), textposition = 'outside',
+              hovertemplate = paste(
+                "Fascia: %{x}<br>",
+                "Loss Ratio: %{y}%<br>",
+                "Polizze: %{customdata[0]:,}<br>",
+                "Frequenza: %{customdata[1]}%<br>",
+                "Quota: %{customdata[2]}%<extra></extra>"
+              ),
+              customdata = ~cbind(n_polizze, frequenza, quota_portafoglio)) %>%
+  add_lines(y = rep(65, nrow(dati_eta)), name = "Target 65%",
+            line = list(color = "red", dash = "dash", width = 2)) %>%
+  layout(
+    title = list(text = "Loss Ratio per Fascia d'Età", font = list(size = 16)),
+    xaxis = list(title = "Fascia d'Età"),
+    yaxis = list(title = "Loss Ratio (%)", range = c(0, 85)),
+    plot_bgcolor = 'rgba(0,0,0,0)',
+    paper_bgcolor = 'rgba(0,0,0,0)',
+    showlegend = FALSE
+  ) %>%
+  config(displayModeBar = FALSE)
+
+p2
+```
+
+## Column {data-width=350}
+
+### Trend Mensile Q3 2024
+
+```{r}
+# Grafico combinato premi vs sinistri
+dati_long <- dati_mensili %>%
+  select(mese, premi_raccolti, sinistri_pagati) %>%
+  reshape2::melt(id.vars = "mese")
+
+p3 <- plot_ly(dati_long, x = ~factor(mese, levels = c("Luglio", "Agosto", "Settembre")), 
+              y = ~value, color = ~variable, type = 'bar',
+              colors = c('#2E86AB', '#A43820'),
+              hovertemplate = "%{x}<br>%{y:€,.0f}<extra></extra>") %>%
+  layout(
+    title = list(text = "Premi vs Sinistri - Q3 2024", font = list(size = 14)),
+    xaxis = list(title = "Mese"),
+    yaxis = list(title = "Importo (€)", tickformat = "€,.0f"),
+    barmode = 'group',
+    legend = list(title = list(text = "Tipo"), 
+                  orientation = "h", y = -0.2),
+    plot_bgcolor = 'rgba(0,0,0,0)',
+    paper_bgcolor = 'rgba(0,0,0,0)'
+  ) %>%
+  config(displayModeBar = FALSE)
+
+p3
+```
+
+### KPI Dettagliati per Mese
+
+```{r}
+# Tabella interattiva mensile
+tabella_mensile <- dati_mensili %>%
+  select(
+    Mese = mese,
+    `Premi (€K)` = premi_raccolti,
+    `Sinistri (€K)` = sinistri_pagati,
+    `Loss Ratio (%)` = loss_ratio,
+    `Frequenza (%)` = frequenza,
+    `Costo Medio (€)` = costo_medio
+  ) %>%
+  mutate(
+    `Premi (€K)` = round(`Premi (€K)` / 1000, 0),
+    `Sinistri (€K)` = round(`Sinistri (€K)` / 1000, 0)
+  )
+
+DT::datatable(
+  tabella_mensile,
+  options = list(
+    dom = 't',
+    pageLength = 5,
+    columnDefs = list(
+      list(className = 'dt-center', targets = 1:6)
+    )
+  ),
+  rownames = FALSE
+  ) %>%
+  formatStyle(
+    'Loss Ratio (%)',
+    backgroundColor = styleInterval(
+      cuts = 65,
+      values = c('#d4edda', '#f8d7da')
+    ),
+    fontWeight = 'bold'
+  ) %>%
+  formatCurrency(columns = c('Premi (€K)', 'Sinistri (€K)', 'Costo Medio (€)'), 
+                currency = "€", digits = 0)
+```
+
+### Top 5 Province per Loss Ratio
+
+```{r}
+# Top province critiche
+top_province <- province_data %>%
+  arrange(desc(loss_ratio)) %>%
+  head(5) %>%
+  select(
+    Provincia = provincia,
+    Regione = regione,
+    `Polizze` = n_polizze,
+    `LR (%)` = loss_ratio,
+    `Freq (%)` = frequenza
+  )
+
+DT::datatable(
+  top_province,
+  options = list(
+    dom = 't',
+    pageLength = 5,
+    columnDefs = list(
+      list(className = 'dt-center', targets = 2:5)
+    )
+  ),
+  rownames = FALSE
+) %>%
+  formatStyle(
+    'LR (%)',
+    backgroundColor = styleInterval(
+      cuts = c(65, 70),
+      values = c('#d4edda', '#fff3cd', '#f8d7da')
+    ),
+    fontWeight = 'bold'
+  ) %>%
+  formatRound(columns = c('LR (%)', 'Freq (%)'), digits = 1)
+```
+
+## Column {data-width=250}
+
+### Distribuzione Geografica
+
+```{r}
+# Mappa interattiva con marker dimensionati
+color_pal <- colorNumeric(palette = c('#2ECC71', '#F39C12', '#E74C3C'), 
+                         domain = range(province_data$loss_ratio))
+
+m <- leaflet(province_data, height = 300) %>%
+  addTiles() %>%
+  addCircleMarkers(
+    lng = ~lng, 
+    lat = ~lat,
+    radius = ~sqrt(n_polizze) / 15,
+    color = ~color_pal(loss_ratio),
+    stroke = TRUE,
+    fillOpacity = 0.8,
+    popup = ~paste0(
+      "<strong>", provincia, "</strong><br/>",
+      "Regione: ", regione, "<br/>",
+      "Loss Ratio: ", loss_ratio, "%<br/>",
+      "Polizze: ", format(n_polizze, big.mark = " "), "<br/>",
+      "Frequenza: ", frequenza, "%"
+    ),
+    label = ~paste(provincia, "-", loss_ratio, "%")
+  ) %>%
+  addLegend(pal = color_pal, 
+            values = ~loss_ratio,
+            title = "Loss Ratio (%)",
+            position = "bottomright") %>%
+  setView(lng = 12.5, lat = 42, zoom = 6)
+
+m
+```
+
+### Analisi Trimestrale
+
+```{r}
+# Confronto trimestri
+confronto_trim <- data.frame(
+  Trimestre = c("Q2 2024", "Q3 2024"),
+  `Premi (€M)` = c(2.65, round(totale_premi_q3/1000000, 2)),
+  `Loss Ratio (%)` = c(63.9, loss_ratio_q3),
+  `Trend` = c("", ifelse(variazione_lr > 0, "↗️", "↘️")),
+  stringsAsFactors = FALSE
+)
+
+kable(confronto_trim, align = c("l", "r", "r", "c")) %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "condensed"), 
+                           font_size = 12) %>%
+  kableExtra::row_spec(2, bold = TRUE, 
+                      color = ifelse(loss_ratio_q3 > 65, "white", "black"),
+                      background = ifelse(loss_ratio_q3 > 65, "#E74C3C", "#2ECC71"))
+```
+
+### Performance Summary
+
+```{r echo=FALSE, results='asis'}
+# Alert condizionali
+fasce_critiche <- sum(dati_eta$loss_ratio > 65)
+province_critiche <- sum(province_data$loss_ratio > 70)
+
+cat("**📊 Stato Performance:**\n\n")
+
+if(loss_ratio_q3 > 70) {
+  cat("🔴 **CRITICO**: Loss ratio molto elevato\n\n")
+} else if(loss_ratio_q3 > 65) {
+  cat("🟡 **ATTENZIONE**: Loss ratio sopra target\n\n") 
+} else {
+  cat("🟢 **BUONO**: Performance in linea\n\n")
+}
+
+cat("**🎯 Focus Areas:**\n")
+cat("- Fasce critiche:", fasce_critiche, "su 5\n")
+cat("- Province critiche:", province_critiche, "su", nrow(province_data), "\n")
+cat("- Trend LR:", ifelse(variazione_lr > 0, "Peggioramento", "Miglioramento"), "\n\n")
+
+if(fasce_critiche > 2) {
+  cat("**🚨 Azione richiesta**: Revisione pricing urgente\n")
+} else if(fasce_critiche > 0) {
+  cat("**⚠️ Monitoraggio**: Controllo fasce specifiche\n")
+} else {
+  cat("**✅ Mantenimento**: Strategia attuale efficace\n")
+}
+```
+
+---
+
+*Dashboard generato automaticamente il `r format(Sys.Date(), "%d/%m/%Y")` - Dati Q3 2024*

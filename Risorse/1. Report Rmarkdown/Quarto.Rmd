@@ -1,0 +1,237 @@
+---
+title: "Dashboard Interattivo Portafoglio Auto"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    theme: cosmo
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(shiny)
+library(plotly)
+library(DT)
+library(dplyr)
+library(leaflet)
+
+# Dataset semplificato
+dati <- data.frame(
+  regione = rep(c("Nord", "Centro", "Sud"), each = 20),
+  fascia_eta = rep(c("18-25", "26-35", "36-50", "51-65", "65+"), 12),
+  provincia = rep(c("Milano", "Roma", "Napoli", "Torino", "Firenze", "Bari"), 10),
+  n_polizze = sample(500:1500, 60),
+  premi_raccolti = sample(300000:800000, 60),
+  sinistri_pagati = sample(200000:600000, 60),
+  lat = c(rep(45.4, 20), rep(41.9, 20), rep(40.8, 20)),
+  lng = c(rep(9.2, 20), rep(12.5, 20), rep(14.3, 20)),
+  stringsAsFactors = FALSE
+) %>%
+  mutate(
+    loss_ratio = round((sinistri_pagati / premi_raccolti) * 100, 1),
+    frequenza = round(runif(60, 5, 15), 1)
+  )
+```
+
+Sidebar {.sidebar}
+=======================================================================
+
+### Filtri
+
+```{r}
+checkboxGroupInput("regioni",
+                   "Regioni:",
+                   choices = c("Nord", "Centro", "Sud"),
+                   selected = c("Nord", "Centro", "Sud"))
+
+checkboxGroupInput("fasce_eta", 
+                   "Fasce Età:",
+                   choices = c("18-25", "26-35", "36-50", "51-65", "65+"),
+                   selected = c("18-25", "26-35", "36-50", "51-65", "65+"))
+
+numericInput("threshold_lr",
+             "Soglia Loss Ratio:",
+             value = 65,
+             min = 50,
+             max = 100)
+```
+
+### Simulazione
+
+```{r}
+sliderInput("aumento_premio",
+            "Variazione Premio (%):",
+            min = -20,
+            max = 30,
+            value = 0)
+
+renderText({
+  if(input$aumento_premio != 0) {
+    paste("Impatto LR:", round(input$aumento_premio * -0.7, 1), "punti")
+  } else {
+    "Nessuna simulazione"
+  }
+})
+```
+
+Dashboard
+=======================================================================
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+
+### KPI Principali
+
+```{r}
+renderValueBox({
+  df <- dati %>%
+    filter(regione %in% input$regioni, fascia_eta %in% input$fasce_eta)
+  
+  total_premi <- sum(df$premi_raccolti)
+  
+  valueBox(
+    value = paste("€", format(total_premi/1000000, digits = 2), "M"),
+    caption = "Premi Raccolti",
+    icon = "fa-euro-sign",
+    color = "blue"
+  )
+})
+```
+
+### Loss Ratio
+
+```{r}
+renderValueBox({
+  df <- dati %>%
+    filter(regione %in% input$regioni, fascia_eta %in% input$fasce_eta)
+  
+  lr <- round(sum(df$sinistri_pagati) / sum(df$premi_raccolti) * 100, 1)
+  color <- ifelse(lr > input$threshold_lr, "red", "green")
+  
+  valueBox(
+    value = paste0(lr, "%"),
+    caption = "Loss Ratio",
+    icon = "fa-chart-line",
+    color = color
+  )
+})
+```
+
+### Grafico per Età
+
+```{r}
+renderPlotly({
+  df <- dati %>%
+    filter(regione %in% input$regioni, fascia_eta %in% input$fasce_eta) %>%
+    group_by(fascia_eta) %>%
+    summarise(
+      loss_ratio = round(sum(sinistri_pagati) / sum(premi_raccolti) * 100, 1),
+      .groups = 'drop'
+    )
+  
+  colors <- ifelse(df$loss_ratio > input$threshold_lr, 'red', 'green')
+  
+  plot_ly(df, x = ~fascia_eta, y = ~loss_ratio, type = 'bar',
+          marker = list(color = colors),
+          mode = 'markers') %>%
+    layout(title = "Loss Ratio per Età",
+           xaxis = list(title = "Fascia"),
+           yaxis = list(title = "Loss Ratio (%)"))
+})
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Mappa
+
+```{r}
+renderLeaflet({
+  df <- dati %>%
+    filter(regione %in% input$regioni, fascia_eta %in% input$fasce_eta) %>%
+    group_by(provincia, lat, lng) %>%
+    summarise(
+      loss_ratio = round(sum(sinistri_pagati) / sum(premi_raccolti) * 100, 1),
+      n_polizze = sum(n_polizze),
+      .groups = 'drop'
+    )
+  
+  leaflet(df) %>%
+    addTiles() %>%
+    addCircleMarkers(
+      lng = ~lng, lat = ~lat,
+      radius = ~sqrt(n_polizze) / 20,
+      popup = ~paste0(provincia, "<br>LR: ", loss_ratio, "%"),
+      color = ~ifelse(loss_ratio > 65, "red", "green")
+    )
+})
+```
+
+### Tabella
+
+```{r}
+DT::renderDataTable({
+  df <- dati %>%
+    filter(regione %in% input$regioni, fascia_eta %in% input$fasce_eta) %>%
+    group_by(regione, fascia_eta) %>%
+    summarise(
+      Polizze = sum(n_polizze),
+      `LR (%)` = round(sum(sinistri_pagati) / sum(premi_raccolti) * 100, 1),
+      .groups = 'drop'
+    )
+  
+  DT::datatable(df, options = list(pageLength = 10))
+})
+```
+
+Column {data-width=250}
+-----------------------------------------------------------------------
+
+### Alert
+
+```{r}
+renderUI({
+  df <- dati %>%
+    filter(regione %in% input$regioni, fascia_eta %in% input$fasce_eta)
+  
+  lr_global <- round(sum(df$sinistri_pagati) / sum(df$premi_raccolti) * 100, 1)
+  
+  if(lr_global > input$threshold_lr + 5) {
+    div(class = "alert alert-danger", 
+        HTML("<strong>🚨 CRITICO</strong><br>Loss ratio molto alto!"))
+  } else if(lr_global > input$threshold_lr) {
+    div(class = "alert alert-warning", 
+        HTML("<strong>⚠️ ATTENZIONE</strong><br>Loss ratio sopra soglia"))
+  } else {
+    div(class = "alert alert-success", 
+        HTML("<strong>✅ OK</strong><br>Performance buona"))
+  }
+})
+```
+
+### Simulazione What-If
+
+```{r}
+renderPlotly({
+  if(input$aumento_premio == 0) {
+    return(plotly_empty() %>% layout(title = "Attiva simulazione"))
+  }
+  
+  df <- dati %>%
+    filter(regione %in% input$regioni, fascia_eta %in% input$fasce_eta)
+  
+  lr_attuale <- round(sum(df$sinistri_pagati) / sum(df$premi_raccolti) * 100, 1)
+  lr_simulato <- lr_attuale - (input$aumento_premio * 0.7)
+  
+  comparison <- data.frame(
+    scenario = c("Attuale", "Simulato"),
+    loss_ratio = c(lr_attuale, lr_simulato)
+  )
+  
+  plot_ly(comparison, x = ~scenario, y = ~loss_ratio, type = 'bar',
+          marker = list(color = c('blue', 'orange')),
+          mode = 'markers') %>%
+    layout(title = "Confronto Scenari",
+           yaxis = list(title = "Loss Ratio (%)"))
+})
+```
