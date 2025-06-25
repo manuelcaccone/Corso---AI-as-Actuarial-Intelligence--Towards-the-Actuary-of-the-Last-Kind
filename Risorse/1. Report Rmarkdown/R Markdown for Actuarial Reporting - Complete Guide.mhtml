@@ -1,0 +1,1423 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: https://prismatic-beijinho-bc2d6e.netlify.app/
+Subject: R Markdown for Actuarial Reporting - Complete Guide
+Date: Wed, 25 Jun 2025 16:45:16 +0200
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--JYUbZ5AJBEgsvsYy7NDTiva26Y7gW9xALK0wTWGKVM----"
+
+
+------MultipartBoundary--JYUbZ5AJBEgsvsYy7NDTiva26Y7gW9xALK0wTWGKVM----
+Content-Type: text/html
+Content-ID: <frame-49DCA0BE7768F96D5BB8019377B8D3CD@mhtml.blink>
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://prismatic-beijinho-bc2d6e.netlify.app/
+
+<!DOCTYPE html><html lang=3D"en"><head><meta http-equiv=3D"Content-Type" co=
+ntent=3D"text/html; charset=3DUTF-8"><link rel=3D"stylesheet" type=3D"text/=
+css" href=3D"cid:css-b7437ad0-1dc1-4e28-ac83-ba577803c59a@mhtml.blink" />
+   =20
+    <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=
+=3D1.0">
+    <title>R Markdown for Actuarial Reporting - Complete Guide</title>
+    <link rel=3D"stylesheet" href=3D"https://prismatic-beijinho-bc2d6e.netl=
+ify.app/style.css">
+    <link rel=3D"stylesheet" href=3D"https://cdnjs.cloudflare.com/ajax/libs=
+/prism/1.29.0/themes/prism.min.css">
+   =20
+   =20
+   =20
+</head>
+<body>
+    <div class=3D"guide-container">
+        <!-- Sidebar Navigation -->
+        <nav class=3D"sidebar" id=3D"sidebar">
+            <div class=3D"sidebar-header">
+                <h2>R Markdown Guide</h2>
+                <button class=3D"sidebar-toggle" id=3D"sidebarToggle">=E2=
+=98=B0</button>
+            </div>
+           =20
+            <div class=3D"search-container">
+                <input type=3D"text" id=3D"searchInput" placeholder=3D"Sear=
+ch topics..." class=3D"form-control">
+            </div>
+           =20
+            <div class=3D"progress-container">
+                <div class=3D"progress-bar">
+                    <div class=3D"progress-fill" id=3D"progressFill" style=
+=3D"width: 0%;"></div>
+                </div>
+                <span class=3D"progress-text" id=3D"progressText">0% Comple=
+te</span>
+            </div>
+           =20
+            <ul class=3D"nav-menu" id=3D"navMenu">
+                <li class=3D"nav-item">
+                    <a href=3D"https://prismatic-beijinho-bc2d6e.netlify.ap=
+p/#section-1" class=3D"nav-link active" data-section=3D"1">
+                        <span class=3D"nav-icon">=F0=9F=93=A6</span>
+                        Getting Started
+                    </a>
+                    <ul class=3D"nav-submenu open">
+                        <li><a href=3D"https://prismatic-beijinho-bc2d6e.ne=
+tlify.app/#install-r" class=3D"nav-sublink">Install R &amp; RStudio</a></li=
+>
+                        <li><a href=3D"https://prismatic-beijinho-bc2d6e.ne=
+tlify.app/#essential-packages" class=3D"nav-sublink">Essential Packages</a>=
+</li>
+                        <li><a href=3D"https://prismatic-beijinho-bc2d6e.ne=
+tlify.app/#first-document" class=3D"nav-sublink">First R Markdown Document<=
+/a></li>
+                    </ul>
+                </li>
+                <li class=3D"nav-item">
+                    <a href=3D"https://prismatic-beijinho-bc2d6e.netlify.ap=
+p/#section-2" class=3D"nav-link active" data-section=3D"2">
+                        <span class=3D"nav-icon">=F0=9F=93=9D</span>
+                        R Markdown Fundamentals
+                    </a>
+                    <ul class=3D"nav-submenu open">
+                        <li><a href=3D"https://prismatic-beijinho-bc2d6e.ne=
+tlify.app/#document-structure" class=3D"nav-sublink">Document Structure</a>=
+</li>
+                        <li><a href=3D"https://prismatic-beijinho-bc2d6e.ne=
+tlify.app/#markdown-syntax" class=3D"nav-sublink">Markdown Syntax</a></li>
+                        <li><a href=3D"https://prismatic-beijinho-bc2d6e.ne=
+tlify.app/#inline-code" class=3D"nav-sublink">Inline R Code</a></li>
+                    </ul>
+                </li>
+                <li class=3D"nav-item">
+                    <a href=3D"https://prismatic-beijinho-bc2d6e.netlify.ap=
+p/#section-3" class=3D"nav-link active" data-section=3D"3">
+                        <span class=3D"nav-icon">=E2=9A=99=EF=B8=8F</span>
+                        YAML Headers
+                    </a>
+                    <ul class=3D"nav-submenu open">
+                        <li><a href=3D"https://prismatic-beijinho-bc2d6e.ne=
+tlify.app/#word-output" class=3D"nav-sublink">Word Documents</a></li>
+                        <li><a href=3D"https://prismatic-beijinho-bc2d6e.ne=
+tlify.app/#pdf-output" class=3D"nav-sublink">PDF Documents</a></li>
+                        <li><a href=3D"https://prismatic-beijinho-bc2d6e.ne=
+tlify.app/#custom-styling" class=3D"nav-sublink">Custom Styling</a></li>
+                    </ul>
+                </li>
+                <li class=3D"nav-item">
+                    <a href=3D"https://prismatic-beijinho-bc2d6e.netlify.ap=
+p/#section-4" class=3D"nav-link" data-section=3D"4">
+                        <span class=3D"nav-icon">=F0=9F=94=A7</span>
+                        Code Chunks &amp; Options
+                    </a>
+                    <ul class=3D"nav-submenu">
+                        <li><a href=3D"https://prismatic-beijinho-bc2d6e.ne=
+tlify.app/#chunk-basics" class=3D"nav-sublink">Essential Options</a></li>
+                        <li><a href=3D"https://prismatic-beijinho-bc2d6e.ne=
+tlify.app/#figure-control" class=3D"nav-sublink">Figure Control</a></li>
+                        <li><a href=3D"https://prismatic-beijinho-bc2d6e.ne=
+tlify.app/#global-options" class=3D"nav-sublink">Global Options</a></li>
+                        <li><a href=3D"https://prismatic-beijinho-bc2d6e.ne=
+tlify.app/#caching-chunks" class=3D"nav-sublink">Caching Chunks</a></li>
+                        <li><a href=3D"https://prismatic-beijinho-bc2d6e.ne=
+tlify.app/#error-handling" class=3D"nav-sublink">Error Handling</a></li>
+                    </ul>
+                </li>
+                <li class=3D"nav-item">
+                    <a href=3D"https://prismatic-beijinho-bc2d6e.netlify.ap=
+p/#section-5" class=3D"nav-link" data-section=3D"5">
+                        <span class=3D"nav-icon">=F0=9F=93=8A</span>
+                        Professional Tables
+                    </a>
+                    <ul class=3D"nav-submenu">
+                        <li><a href=3D"https://prismatic-beijinho-bc2d6e.ne=
+tlify.app/#kable-basics" class=3D"nav-sublink">kable() Basics</a></li>
+                        <li><a href=3D"https://prismatic-beijinho-bc2d6e.ne=
+tlify.app/#kableextra-styling" class=3D"nav-sublink">kableExtra Styling</a>=
+</li>
+                        <li><a href=3D"https://prismatic-beijinho-bc2d6e.ne=
+tlify.app/#conditional-formatting" class=3D"nav-sublink">Conditional Format=
+ting</a></li>
+                    </ul>
+                </li>
+                <li class=3D"nav-item">
+                    <a href=3D"https://prismatic-beijinho-bc2d6e.netlify.ap=
+p/#section-6" class=3D"nav-link" data-section=3D"6">
+                        <span class=3D"nav-icon">=F0=9F=93=88</span>
+                        Actuarial Applications
+                    </a>
+                    <ul class=3D"nav-submenu">
+                        <li><a href=3D"https://prismatic-beijinho-bc2d6e.ne=
+tlify.app/#loss-ratios" class=3D"nav-sublink">Loss Ratio Analysis</a></li>
+                        <li><a href=3D"https://prismatic-beijinho-bc2d6e.ne=
+tlify.app/#mortality-studies" class=3D"nav-sublink">Mortality Studies</a></=
+li>
+                        <li><a href=3D"https://prismatic-beijinho-bc2d6e.ne=
+tlify.app/#reserve-analysis" class=3D"nav-sublink">Reserve Analysis</a></li=
+>
+                    </ul>
+                </li>
+                <li class=3D"nav-item">
+                    <a href=3D"https://prismatic-beijinho-bc2d6e.netlify.ap=
+p/#section-7" class=3D"nav-link" data-section=3D"7">
+                        <span class=3D"nav-icon">=F0=9F=94=84</span>
+                        Parameterized Reports
+                    </a>
+                    <ul class=3D"nav-submenu">
+                        <li><a href=3D"https://prismatic-beijinho-bc2d6e.ne=
+tlify.app/#parameter-setup" class=3D"nav-sublink">Parameter Setup</a></li>
+                        <li><a href=3D"https://prismatic-beijinho-bc2d6e.ne=
+tlify.app/#dynamic-reports" class=3D"nav-sublink">Dynamic Reports</a></li>
+                        <li><a href=3D"https://prismatic-beijinho-bc2d6e.ne=
+tlify.app/#batch-processing" class=3D"nav-sublink">Batch Processing</a></li=
+>
+                    </ul>
+                </li>
+                <li class=3D"nav-item">
+                    <a href=3D"https://prismatic-beijinho-bc2d6e.netlify.ap=
+p/#section-8" class=3D"nav-link" data-section=3D"8">
+                        <span class=3D"nav-icon">=F0=9F=93=A4</span>
+                        Output &amp; Deployment
+                    </a>
+                    <ul class=3D"nav-submenu">
+                        <li><a href=3D"https://prismatic-beijinho-bc2d6e.ne=
+tlify.app/#word-customization" class=3D"nav-sublink">Word Customization</a>=
+</li>
+                        <li><a href=3D"https://prismatic-beijinho-bc2d6e.ne=
+tlify.app/#pdf-generation" class=3D"nav-sublink">PDF Generation</a></li>
+                        <li><a href=3D"https://prismatic-beijinho-bc2d6e.ne=
+tlify.app/#best-practices" class=3D"nav-sublink">Best Practices</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class=3D"main-content" id=3D"mainContent">
+            <header class=3D"content-header">
+                <h1>R Markdown for Actuarial Reporting</h1>
+                <p class=3D"lead">A comprehensive guide to creating profess=
+ional actuarial reports using R Markdown</p>
+            </header>
+
+            <!-- Section 1: Getting Started -->
+            <section id=3D"section-1" class=3D"content-section">
+                <h2>1. Getting Started</h2>
+               =20
+                <div id=3D"install-r" class=3D"subsection">
+                    <h3>Installing R &amp; RStudio</h3>
+                    <p>Before diving into R Markdown, you need to set up yo=
+ur development environment. Follow these steps for your operating system:</=
+p>
+                   =20
+                    <div class=3D"tab-container">
+                        <div class=3D"tab-buttons">
+                            <button class=3D"tab-button active" data-tab=3D=
+"windows">Windows</button>
+                            <button class=3D"tab-button" data-tab=3D"mac">m=
+acOS</button>
+                            <button class=3D"tab-button" data-tab=3D"linux"=
+>Linux</button>
+                        </div>
+                       =20
+                        <div class=3D"tab-content">
+                            <div id=3D"windows" class=3D"tab-panel active">
+                                <ol>
+                                    <li><strong>Install R:</strong> Visit <=
+a href=3D"https://cran.r-project.org/bin/windows/base/" target=3D"_blank">C=
+RAN</a> and download the latest R version</li>
+                                    <li>Run the installer and accept all de=
+fault settings</li>
+                                    <li><strong>Install RStudio:</strong> V=
+isit <a href=3D"https://rstudio.com/products/rstudio/download/" target=3D"_=
+blank">RStudio.com</a></li>
+                                    <li>Download the free RStudio Desktop v=
+ersion</li>
+                                    <li>Install RStudio (make sure R is ins=
+talled first)</li>
+                                </ol>
+                            </div>
+                            <div id=3D"mac" class=3D"tab-panel">
+                                <ol>
+                                    <li><strong>Install R:</strong> Downloa=
+d R-x.x.x.pkg from <a href=3D"https://cran.r-project.org/bin/macosx/" targe=
+t=3D"_blank">CRAN</a></li>
+                                    <li>Double-click the installer and foll=
+ow the setup wizard</li>
+                                    <li><strong>Install RStudio:</strong> D=
+ownload from <a href=3D"https://rstudio.com/products/rstudio/download/" tar=
+get=3D"_blank">RStudio.com</a></li>
+                                    <li>Drag RStudio to your Applications f=
+older</li>
+                                </ol>
+                            </div>
+                            <div id=3D"linux" class=3D"tab-panel">
+                                <ol>
+                                    <li><strong>Install R:</strong> Use you=
+r package manager</li>
+                                    <li>Ubuntu/Debian: <code>sudo apt-get i=
+nstall r-base</code></li>
+                                    <li>Update package sources and install =
+dependencies</li>
+                                    <li><strong>Install RStudio:</strong> D=
+ownload .deb or .rpm from RStudio.com</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id=3D"essential-packages" class=3D"subsection">
+                    <h3>Essential Packages</h3>
+                    <p>Install these packages to get started with R Markdow=
+n for actuarial reporting:</p>
+                   =20
+                    <div class=3D"code-example">
+                        <div class=3D"code-header">
+                            <span>R Console</span>
+                            <button class=3D"copy-btn" data-copy=3D"install=
+.packages(c('rmarkdown', 'knitr', 'tinytex', 'kableExtra', 'dplyr', 'ggplot=
+2'))
+
+# Install TinyTeX for PDF output
+tinytex::install_tinytex()">Copy</button>
+                        </div>
+                        <pre class=3D"language-r" tabindex=3D"0"><code clas=
+s=3D"language-r">install.packages<span class=3D"token punctuation">(</span>=
+c<span class=3D"token punctuation">(</span><span class=3D"token string">"rm=
+arkdown"</span><span class=3D"token punctuation">,</span> <span class=3D"to=
+ken string">"knitr"</span><span class=3D"token punctuation">,</span> <span =
+class=3D"token string">"tinytex"</span><span class=3D"token punctuation">,<=
+/span> <span class=3D"token string">"kableExtra"</span><span class=3D"token=
+ punctuation">,</span> <span class=3D"token string">"dplyr"</span><span cla=
+ss=3D"token punctuation">,</span> <span class=3D"token string">"ggplot2"</s=
+pan><span class=3D"token punctuation">)</span><span class=3D"token punctuat=
+ion">)</span>
+
+<span class=3D"token comment"># Install TinyTeX for PDF output</span>
+tinytex<span class=3D"token operator">::</span>install_tinytex<span class=
+=3D"token punctuation">(</span><span class=3D"token punctuation">)</span></=
+code></pre>
+                    </div>
+                   =20
+                    <div class=3D"info-box">
+                        <h4>Package Overview:</h4>
+                        <ul>
+                            <li><strong>rmarkdown:</strong> Core R Markdown=
+ functionality</li>
+                            <li><strong>knitr:</strong> Dynamic report gene=
+ration</li>
+                            <li><strong>tinytex:</strong> Lightweight LaTeX=
+ distribution for PDF output</li>
+                            <li><strong>kableExtra:</strong> Advanced table=
+ formatting</li>
+                            <li><strong>dplyr:</strong> Data manipulation</=
+li>
+                            <li><strong>ggplot2:</strong> Data visualizatio=
+n</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id=3D"first-document" class=3D"subsection">
+                    <h3>Your First R Markdown Document</h3>
+                    <p>Let's create your first actuarial report template:</=
+p>
+                   =20
+                    <div class=3D"step-by-step">
+                        <div class=3D"step">
+                            <div class=3D"step-number">1</div>
+                            <div class=3D"step-content">
+                                <h4>Create New R Markdown File</h4>
+                                <p>In RStudio: File =E2=86=92 New File =E2=
+=86=92 R Markdown...</p>
+                            </div>
+                        </div>
+                        <div class=3D"step">
+                            <div class=3D"step-number">2</div>
+                            <div class=3D"step-content">
+                                <h4>Choose Document Type</h4>
+                                <p>Select "Document" and choose your prefer=
+red output format</p>
+                            </div>
+                        </div>
+                        <div class=3D"step">
+                            <div class=3D"step-number">3</div>
+                            <div class=3D"step-content">
+                                <h4>Replace Default Content</h4>
+                                <p>Use this actuarial report template:</p>
+                            </div>
+                        </div>
+                    </div>
+                   =20
+                    <div class=3D"code-example">
+                        <div class=3D"code-header">
+                            <span>actuarial-report-template.Rmd</span>
+                            <button class=3D"copy-btn" data-copy=3D"---
+title: &quot;Actuarial Analysis Report&quot;
+author: &quot;Your Name&quot;
+date: &quot;`r Sys.Date()`&quot;
+output:=20
+  word_document:
+    toc: true
+    number_sections: true
+---
+
+```{r setup, include=3DFALSE}
+knitr::opts_chunk$set(echo =3D FALSE, warning =3D FALSE, message =3D FALSE)
+library(kableExtra)
+library(dplyr)
+library(ggplot2)
+```
+
+# Executive Summary
+
+This report presents the actuarial analysis for the period ending `r Sys.Da=
+te()`.
+
+# Data Analysis
+
+```{r}
+# Sample actuarial data
+data &lt;- data.frame(
+  Product =3D c(&quot;Term Life&quot;, &quot;Whole Life&quot;, &quot;Univer=
+sal Life&quot;),
+  Premiums =3D c(1000000, 2000000, 1500000),
+  Claims =3D c(650000, 1200000, 900000),
+  Loss_Ratio =3D c(0.65, 0.60, 0.60)
+)
+
+kable(data, caption =3D &quot;Loss Ratio Analysis&quot;) %&gt;%
+  kable_styling(bootstrap_options =3D c(&quot;striped&quot;, &quot;hover&qu=
+ot;))
+```
+
+# Conclusions
+
+The analysis shows favorable loss ratios across all product lines.">Copy</b=
+utton>
+                        </div>
+                        <pre class=3D"language-yaml" tabindex=3D"0"><code c=
+lass=3D"language-yaml"><span class=3D"token punctuation">---</span>
+<span class=3D"token key atrule">title</span><span class=3D"token punctuati=
+on">:</span> <span class=3D"token string">"Actuarial Analysis Report"</span=
+>
+<span class=3D"token key atrule">author</span><span class=3D"token punctuat=
+ion">:</span> <span class=3D"token string">"Your Name"</span>
+<span class=3D"token key atrule">date</span><span class=3D"token punctuatio=
+n">:</span> <span class=3D"token string">"`r Sys.Date()`"</span>
+<span class=3D"token key atrule">output</span><span class=3D"token punctuat=
+ion">:</span>=20
+  <span class=3D"token key atrule">word_document</span><span class=3D"token=
+ punctuation">:</span>
+    <span class=3D"token key atrule">toc</span><span class=3D"token punctua=
+tion">:</span> <span class=3D"token boolean important">true</span>
+    <span class=3D"token key atrule">number_sections</span><span class=3D"t=
+oken punctuation">:</span> <span class=3D"token boolean important">true</sp=
+an>
+<span class=3D"token punctuation">---</span>
+
+```<span class=3D"token punctuation">{</span>r setup<span class=3D"token pu=
+nctuation">,</span> include=3DFALSE<span class=3D"token punctuation">}</spa=
+n>
+knitr<span class=3D"token punctuation">:</span><span class=3D"token punctua=
+tion">:</span>opts_chunk$set(echo =3D FALSE<span class=3D"token punctuation=
+">,</span> warning =3D FALSE<span class=3D"token punctuation">,</span> mess=
+age =3D FALSE)
+library(kableExtra)
+library(dplyr)
+library(ggplot2)
+```
+
+<span class=3D"token comment"># Executive Summary</span>
+
+This report presents the actuarial analysis for the period ending `r Sys.Da=
+te()`.
+
+<span class=3D"token comment"># Data Analysis</span>
+
+```<span class=3D"token punctuation">{</span>r<span class=3D"token punctuat=
+ion">}</span>
+<span class=3D"token comment"># Sample actuarial data</span>
+data &lt;<span class=3D"token punctuation">-</span> data.frame(
+  Product =3D c("Term Life"<span class=3D"token punctuation">,</span> <span=
+ class=3D"token string">"Whole Life"</span><span class=3D"token punctuation=
+">,</span> "Universal Life")<span class=3D"token punctuation">,</span>
+  Premiums =3D c(1000000<span class=3D"token punctuation">,</span> <span cl=
+ass=3D"token number">2000000</span><span class=3D"token punctuation">,</spa=
+n> 1500000)<span class=3D"token punctuation">,</span>
+  Claims =3D c(650000<span class=3D"token punctuation">,</span> <span class=
+=3D"token number">1200000</span><span class=3D"token punctuation">,</span> =
+900000)<span class=3D"token punctuation">,</span>
+  Loss_Ratio =3D c(0.65<span class=3D"token punctuation">,</span> <span cla=
+ss=3D"token number">0.60</span><span class=3D"token punctuation">,</span> 0=
+.60)
+)
+
+kable(data<span class=3D"token punctuation">,</span> caption =3D "Loss Rati=
+o Analysis") %<span class=3D"token punctuation">&gt;</span>%
+  kable_styling(bootstrap_options =3D c("striped"<span class=3D"token punct=
+uation">,</span> "hover"))
+```
+
+<span class=3D"token comment"># Conclusions</span>
+
+The analysis shows favorable loss ratios across all product lines.</code></=
+pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: R Markdown Fundamentals -->
+            <section id=3D"section-2" class=3D"content-section">
+                <h2>2. R Markdown Fundamentals</h2>
+               =20
+                <div id=3D"document-structure" class=3D"subsection">
+                    <h3>Document Structure &amp; Anatomy</h3>
+                    <p>Every R Markdown document consists of three main com=
+ponents:</p>
+                   =20
+                    <div class=3D"structure-diagram">
+                        <div class=3D"structure-item">
+                            <div class=3D"structure-icon">=F0=9F=93=8B</div=
+>
+                            <h4>YAML Header</h4>
+                            <p>Document metadata and output options</p>
+                        </div>
+                        <div class=3D"structure-item">
+                            <div class=3D"structure-icon">=F0=9F=93=9D</div=
+>
+                            <h4>Markdown Text</h4>
+                            <p>Formatted text using Markdown syntax</p>
+                        </div>
+                        <div class=3D"structure-item">
+                            <div class=3D"structure-icon">=F0=9F=92=BB</div=
+>
+                            <h4>R Code Chunks</h4>
+                            <p>Executable R code for analysis</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id=3D"markdown-syntax" class=3D"subsection">
+                    <h3>Essential Markdown Syntax</h3>
+                    <p>Master these markdown elements for professional repo=
+rts:</p>
+                   =20
+                    <div class=3D"syntax-grid">
+                        <div class=3D"syntax-item">
+                            <h4>Headers</h4>
+                            <div class=3D"code-example">
+                                <pre><code># Header 1
+## Header 2
+### Header 3</code></pre>
+                            </div>
+                        </div>
+                        <div class=3D"syntax-item">
+                            <h4>Emphasis</h4>
+                            <div class=3D"code-example">
+                                <pre><code>**Bold text**
+*Italic text*
+`Code text`</code></pre>
+                            </div>
+                        </div>
+                        <div class=3D"syntax-item">
+                            <h4>Lists</h4>
+                            <div class=3D"code-example">
+                                <pre><code>- Unordered item
+- Another item
+
+1. Ordered item
+2. Another item</code></pre>
+                            </div>
+                        </div>
+                        <div class=3D"syntax-item">
+                            <h4>Links &amp; Images</h4>
+                            <div class=3D"code-example">
+                                <pre><code>[Link text](URL)
+![Alt text](image.png)</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id=3D"inline-code" class=3D"subsection">
+                    <h3>Inline R Code</h3>
+                    <p>Embed R calculations directly in your text for dynam=
+ic reports:</p>
+                   =20
+                    <div class=3D"code-example">
+                        <div class=3D"code-header">
+                            <span>Inline R Code Examples</span>
+                            <button class=3D"copy-btn" data-copy=3D"The cur=
+rent date is `r Sys.Date()`.
+
+The loss ratio for this period is `r round(claims/premiums, 3)`.
+
+We analyzed `r nrow(data)` insurance policies.
+
+The average premium is $`r format(mean(data$premium), big.mark =3D ',')`.">=
+Copy</button>
+                        </div>
+                        <pre><code>The current date is `r Sys.Date()`.
+
+The loss ratio for this period is `r round(claims/premiums, 3)`.
+
+We analyzed `r nrow(data)` insurance policies.
+
+The average premium is $`r format(mean(data$premium), big.mark =3D ',')`.</=
+code></pre>
+                    </div>
+                   =20
+                    <div class=3D"tip-box">
+                        <h4>=F0=9F=92=A1 Pro Tip:</h4>
+                        <p>Use inline R code for dynamic values that change=
+ based on your data. This ensures your reports stay current automatically.<=
+/p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: YAML Headers -->
+            <section id=3D"section-3" class=3D"content-section">
+                <h2>3. YAML Headers for Actuarial Reports</h2>
+               =20
+                <div id=3D"word-output" class=3D"subsection">
+                    <h3>Word Document Configuration</h3>
+                    <p>Configure Word output for professional actuarial rep=
+orts:</p>
+                   =20
+                    <div class=3D"code-example">
+                        <div class=3D"code-header">
+                            <span>Word Document YAML</span>
+                            <button class=3D"copy-btn" data-copy=3D"---
+title: &quot;Actuarial Report&quot;
+author: &quot;Your Name&quot;
+date: &quot;`r Sys.Date()`&quot;
+output:=20
+  word_document:
+    reference_docx: template.docx
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    fig_caption: true
+    fig_width: 8
+    fig_height: 6
+    df_print: kable
+---">Copy</button>
+                        </div>
+                        <pre class=3D"language-yaml" tabindex=3D"0"><code c=
+lass=3D"language-yaml"><span class=3D"token punctuation">---</span>
+<span class=3D"token key atrule">title</span><span class=3D"token punctuati=
+on">:</span> <span class=3D"token string">"Actuarial Report"</span>
+<span class=3D"token key atrule">author</span><span class=3D"token punctuat=
+ion">:</span> <span class=3D"token string">"Your Name"</span>
+<span class=3D"token key atrule">date</span><span class=3D"token punctuatio=
+n">:</span> <span class=3D"token string">"`r Sys.Date()`"</span>
+<span class=3D"token key atrule">output</span><span class=3D"token punctuat=
+ion">:</span>=20
+  <span class=3D"token key atrule">word_document</span><span class=3D"token=
+ punctuation">:</span>
+    <span class=3D"token key atrule">reference_docx</span><span class=3D"to=
+ken punctuation">:</span> template.docx
+    <span class=3D"token key atrule">toc</span><span class=3D"token punctua=
+tion">:</span> <span class=3D"token boolean important">true</span>
+    <span class=3D"token key atrule">toc_depth</span><span class=3D"token p=
+unctuation">:</span> <span class=3D"token number">3</span>
+    <span class=3D"token key atrule">number_sections</span><span class=3D"t=
+oken punctuation">:</span> <span class=3D"token boolean important">true</sp=
+an>
+    <span class=3D"token key atrule">fig_caption</span><span class=3D"token=
+ punctuation">:</span> <span class=3D"token boolean important">true</span>
+    <span class=3D"token key atrule">fig_width</span><span class=3D"token p=
+unctuation">:</span> <span class=3D"token number">8</span>
+    <span class=3D"token key atrule">fig_height</span><span class=3D"token =
+punctuation">:</span> <span class=3D"token number">6</span>
+    <span class=3D"token key atrule">df_print</span><span class=3D"token pu=
+nctuation">:</span> kable
+<span class=3D"token punctuation">---</span></code></pre>
+                    </div>
+                </div>
+
+                <div id=3D"pdf-output" class=3D"subsection">
+                    <h3>PDF Document Configuration</h3>
+                    <p>Set up PDF output for formal actuarial documentation=
+:</p>
+                   =20
+                    <div class=3D"code-example">
+                        <div class=3D"code-header">
+                            <span>PDF Document YAML</span>
+                            <button class=3D"copy-btn" data-copy=3D"---
+title: &quot;Mortality Experience Study&quot;
+author: &quot;Actuary Name&quot;
+date: &quot;`r Sys.Date()`&quot;
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    fig_caption: true
+    fig_width: 7
+    fig_height: 5
+    keep_tex: false
+    latex_engine: pdflatex
+    df_print: kable
+geometry: margin=3D1in
+fontsize: 11pt
+---">Copy</button>
+                        </div>
+                        <pre class=3D"language-yaml" tabindex=3D"0"><code c=
+lass=3D"language-yaml"><span class=3D"token punctuation">---</span>
+<span class=3D"token key atrule">title</span><span class=3D"token punctuati=
+on">:</span> <span class=3D"token string">"Mortality Experience Study"</spa=
+n>
+<span class=3D"token key atrule">author</span><span class=3D"token punctuat=
+ion">:</span> <span class=3D"token string">"Actuary Name"</span>
+<span class=3D"token key atrule">date</span><span class=3D"token punctuatio=
+n">:</span> <span class=3D"token string">"`r Sys.Date()`"</span>
+<span class=3D"token key atrule">output</span><span class=3D"token punctuat=
+ion">:</span>
+  <span class=3D"token key atrule">pdf_document</span><span class=3D"token =
+punctuation">:</span>
+    <span class=3D"token key atrule">toc</span><span class=3D"token punctua=
+tion">:</span> <span class=3D"token boolean important">true</span>
+    <span class=3D"token key atrule">toc_depth</span><span class=3D"token p=
+unctuation">:</span> <span class=3D"token number">3</span>
+    <span class=3D"token key atrule">number_sections</span><span class=3D"t=
+oken punctuation">:</span> <span class=3D"token boolean important">true</sp=
+an>
+    <span class=3D"token key atrule">fig_caption</span><span class=3D"token=
+ punctuation">:</span> <span class=3D"token boolean important">true</span>
+    <span class=3D"token key atrule">fig_width</span><span class=3D"token p=
+unctuation">:</span> <span class=3D"token number">7</span>
+    <span class=3D"token key atrule">fig_height</span><span class=3D"token =
+punctuation">:</span> <span class=3D"token number">5</span>
+    <span class=3D"token key atrule">keep_tex</span><span class=3D"token pu=
+nctuation">:</span> <span class=3D"token boolean important">false</span>
+    <span class=3D"token key atrule">latex_engine</span><span class=3D"toke=
+n punctuation">:</span> pdflatex
+    <span class=3D"token key atrule">df_print</span><span class=3D"token pu=
+nctuation">:</span> kable
+<span class=3D"token key atrule">geometry</span><span class=3D"token punctu=
+ation">:</span> margin=3D1in
+<span class=3D"token key atrule">fontsize</span><span class=3D"token punctu=
+ation">:</span> 11pt
+<span class=3D"token punctuation">---</span></code></pre>
+                    </div>
+                </div>
+
+                <div id=3D"custom-styling" class=3D"subsection">
+                    <h3>Custom Styling &amp; Templates</h3>
+                    <p>Create branded reports with custom Word templates:</=
+p>
+                   =20
+                    <div class=3D"step-by-step">
+                        <div class=3D"step">
+                            <div class=3D"step-number">1</div>
+                            <div class=3D"step-content">
+                                <h4>Create Word Template</h4>
+                                <p>Format a Word document with your company=
+ branding, fonts, and colors</p>
+                            </div>
+                        </div>
+                        <div class=3D"step">
+                            <div class=3D"step-number">2</div>
+                            <div class=3D"step-content">
+                                <h4>Save as reference_docx</h4>
+                                <p>Save the template as <code>template.docx=
+</code> in your project folder</p>
+                            </div>
+                        </div>
+                        <div class=3D"step">
+                            <div class=3D"step-number">3</div>
+                            <div class=3D"step-content">
+                                <h4>Reference in YAML</h4>
+                                <p>Use <code>reference_docx: template.docx<=
+/code> in your YAML header</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bottoni di completamento per le sezioni visibili -->
+            <div class=3D"section-completion">
+                <button class=3D"btn btn--primary mark-complete" data-secti=
+on=3D"1">Mark Section 1 Complete</button>
+                <button class=3D"btn btn--primary mark-complete" data-secti=
+on=3D"2">Mark Section 2 Complete</button>
+                <button class=3D"btn btn--primary mark-complete" data-secti=
+on=3D"3">Mark Section 3 Complete</button>
+            </div>
+
+            <!-- Placeholder per le sezioni dinamiche -->
+            <section id=3D"section-4" class=3D"content-section"></section><=
+section id=3D"section-5" class=3D"content-section"></section><section id=3D=
+"section-6" class=3D"content-section"></section><section id=3D"section-7" c=
+lass=3D"content-section"></section><section id=3D"section-8" class=3D"conte=
+nt-section"></section><div class=3D"coming-sections">
+                <p><em>Additional sections (4-8) will be loaded dynamically=
+ as you progress through the guide.</em></p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Script JavaScript -->
+   =20
+   =20
+    <!-- Script di supporto per i bottoni di copia dinamici -->
+   =20
+
+</body><app-ls-content ng-version=3D"17.3.7"><template shadowmode=3D"open">=
+<!----><app-similar-tools _nghost-ng-c2697620354=3D""><!----><!----><!---->=
+</app-similar-tools><!----><!----></template></app-ls-content></html>
+------MultipartBoundary--JYUbZ5AJBEgsvsYy7NDTiva26Y7gW9xALK0wTWGKVM----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css
+
+@charset "utf-8";
+
+code[class*=3D"language-"], pre[class*=3D"language-"] { color: rgb(0, 0, 0)=
+; background: 0px 0px; text-shadow: rgb(255, 255, 255) 0px 1px; font-family=
+: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace; font-size: 1em=
+; text-align: left; white-space: pre; word-spacing: normal; word-break: nor=
+mal; overflow-wrap: normal; line-height: 1.5; tab-size: 4; hyphens: none; }
+
+code[class*=3D"language-"] ::selection, code[class*=3D"language-"]::selecti=
+on, pre[class*=3D"language-"] ::selection, pre[class*=3D"language-"]::selec=
+tion { text-shadow: none; background: rgb(179, 212, 252); }
+
+@media print {
+  code[class*=3D"language-"], pre[class*=3D"language-"] { text-shadow: none=
+; }
+}
+
+pre[class*=3D"language-"] { padding: 1em; margin: 0.5em 0px; overflow: auto=
+; }
+
+:not(pre) > code[class*=3D"language-"], pre[class*=3D"language-"] { backgro=
+und: rgb(245, 242, 240); }
+
+:not(pre) > code[class*=3D"language-"] { padding: 0.1em; border-radius: 0.3=
+em; white-space: normal; }
+
+.token.cdata, .token.comment, .token.doctype, .token.prolog { color: rgb(11=
+2, 128, 144); }
+
+.token.punctuation { color: rgb(153, 153, 153); }
+
+.token.namespace { opacity: 0.7; }
+
+.token.boolean, .token.constant, .token.deleted, .token.number, .token.prop=
+erty, .token.symbol, .token.tag { color: rgb(153, 0, 85); }
+
+.token.attr-name, .token.builtin, .token.char, .token.inserted, .token.sele=
+ctor, .token.string { color: rgb(102, 153, 0); }
+
+.language-css .token.string, .style .token.string, .token.entity, .token.op=
+erator, .token.url { color: rgb(154, 110, 58); background: rgba(255, 255, 2=
+55, 0.5); }
+
+.token.atrule, .token.attr-value, .token.keyword { color: rgb(0, 119, 170);=
+ }
+
+.token.class-name, .token.function { color: rgb(221, 74, 104); }
+
+.token.important, .token.regex, .token.variable { color: rgb(238, 153, 0); =
+}
+
+.token.bold, .token.important { font-weight: 700; }
+
+.token.italic { font-style: italic; }
+
+.token.entity { cursor: help; }
+------MultipartBoundary--JYUbZ5AJBEgsvsYy7NDTiva26Y7gW9xALK0wTWGKVM----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://prismatic-beijinho-bc2d6e.netlify.app/style.css
+
+@charset "utf-8";
+
+:root { --color-background: rgba(252, 252, 249, 1); --color-surface: rgba(2=
+55, 255, 253, 1); --color-text: rgba(19, 52, 59, 1); --color-text-secondary=
+: rgba(98, 108, 113, 1); --color-primary: rgba(33, 128, 141, 1); --color-pr=
+imary-hover: rgba(29, 116, 128, 1); --color-primary-active: rgba(26, 104, 1=
+15, 1); --color-secondary: rgba(94, 82, 64, 0.12); --color-secondary-hover:=
+ rgba(94, 82, 64, 0.2); --color-secondary-active: rgba(94, 82, 64, 0.25); -=
+-color-border: rgba(94, 82, 64, 0.2); --color-btn-primary-text: rgba(252, 2=
+52, 249, 1); --color-card-border: rgba(94, 82, 64, 0.12); --color-card-bord=
+er-inner: rgba(94, 82, 64, 0.12); --color-error: rgba(192, 21, 47, 1); --co=
+lor-success: rgba(33, 128, 141, 1); --color-warning: rgba(168, 75, 47, 1); =
+--color-info: rgba(98, 108, 113, 1); --color-focus-ring: rgba(33, 128, 141,=
+ 0.4); --color-select-caret: rgba(19, 52, 59, 0.8); --focus-ring: 0 0 0 3px=
+ var(--color-focus-ring); --focus-outline: 2px solid var(--color-primary); =
+--status-bg-opacity: 0.15; --status-border-opacity: 0.25; --select-caret-li=
+ght: url("data:image/svg+xml,%3Csvg xmlns=3D'http://www.w3.org/2000/svg' wi=
+dth=3D'16' height=3D'16' viewBox=3D'0 0 24 24' fill=3D'none' stroke=3D'%231=
+34252' stroke-width=3D'2' stroke-linecap=3D'round' stroke-linejoin=3D'round=
+'%3E%3Cpolyline points=3D'6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); --=
+select-caret-dark: url("data:image/svg+xml,%3Csvg xmlns=3D'http://www.w3.or=
+g/2000/svg' width=3D'16' height=3D'16' viewBox=3D'0 0 24 24' fill=3D'none' =
+stroke=3D'%23f5f5f5' stroke-width=3D'2' stroke-linecap=3D'round' stroke-lin=
+ejoin=3D'round'%3E%3Cpolyline points=3D'6 9 12 15 18 9'%3E%3C/polyline%3E%3=
+C/svg%3E"); --color-success-rgb: 33, 128, 141; --color-error-rgb: 192, 21, =
+47; --color-warning-rgb: 168, 75, 47; --color-info-rgb: 98, 108, 113; --fon=
+t-family-base: "FKGroteskNeue", "Geist", "Inter", -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; --font-family-mono:=
+ "Berkeley Mono", ui-monospace, SFMono-Regular, Menlo,
+    Monaco, Consolas, monospace; --font-size-xs: 11px; --font-size-sm: 12px=
+; --font-size-base: 14px; --font-size-md: 14px; --font-size-lg: 16px; --fon=
+t-size-xl: 18px; --font-size-2xl: 20px; --font-size-3xl: 24px; --font-size-=
+4xl: 30px; --font-weight-normal: 400; --font-weight-medium: 500; --font-wei=
+ght-semibold: 550; --font-weight-bold: 600; --line-height-tight: 1.2; --lin=
+e-height-normal: 1.5; --letter-spacing-tight: -0.01em; --space-0: 0; --spac=
+e-1: 1px; --space-2: 2px; --space-4: 4px; --space-6: 6px; --space-8: 8px; -=
+-space-10: 10px; --space-12: 12px; --space-16: 16px; --space-20: 20px; --sp=
+ace-24: 24px; --space-32: 32px; --radius-sm: 6px; --radius-base: 8px; --rad=
+ius-md: 10px; --radius-lg: 12px; --radius-full: 9999px; --shadow-xs: 0 1px =
+2px rgba(0, 0, 0, 0.02); --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px =
+2px rgba(0, 0, 0, 0.02); --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04),
+    0 2px 4px -1px rgba(0, 0, 0, 0.02); --shadow-lg: 0 10px 15px -3px rgba(=
+0, 0, 0, 0.04),
+    0 4px 6px -2px rgba(0, 0, 0, 0.02); --shadow-inset-sm: inset 0 1px 0 rg=
+ba(255, 255, 255, 0.15),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.03); --duration-fast: 150ms; --duration-=
+normal: 250ms; --ease-standard: cubic-bezier(0.16, 1, 0.3, 1); --container-=
+sm: 640px; --container-md: 768px; --container-lg: 1024px; --container-xl: 1=
+280px; }
+
+@media (prefers-color-scheme: dark) {
+  :root { --color-background: rgba(31, 33, 33, 1); --color-surface: rgba(38=
+, 40, 40, 1); --color-text: rgba(245, 245, 245, 1); --color-text-secondary:=
+ rgba(167, 169, 169, 0.7); --color-primary: rgba(50, 184, 198, 1); --color-=
+primary-hover: rgba(45, 166, 178, 1); --color-primary-active: rgba(41, 150,=
+ 161, 1); --color-secondary: rgba(119, 124, 124, 0.15); --color-secondary-h=
+over: rgba(119, 124, 124, 0.25); --color-secondary-active: rgba(119, 124, 1=
+24, 0.3); --color-border: rgba(119, 124, 124, 0.3); --color-error: rgba(255=
+, 84, 89, 1); --color-success: rgba(50, 184, 198, 1); --color-warning: rgba=
+(230, 129, 97, 1); --color-info: rgba(167, 169, 169, 1); --color-focus-ring=
+: rgba(50, 184, 198, 0.4); --color-btn-primary-text: rgba(19, 52, 59, 1); -=
+-color-card-border: rgba(119, 124, 124, 0.2); --color-card-border-inner: rg=
+ba(119, 124, 124, 0.15); --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 25=
+5, 0.1),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.15); --button-border-secondary: rgba(1=
+19, 124, 124, 0.2); --color-border-secondary: rgba(119, 124, 124, 0.2); --c=
+olor-select-caret: rgba(245, 245, 245, 0.8); --focus-ring: 0 0 0 3px var(--=
+color-focus-ring); --focus-outline: 2px solid var(--color-primary); --statu=
+s-bg-opacity: 0.15; --status-border-opacity: 0.25; --select-caret-light: ur=
+l("data:image/svg+xml,%3Csvg xmlns=3D'http://www.w3.org/2000/svg' width=3D'=
+16' height=3D'16' viewBox=3D'0 0 24 24' fill=3D'none' stroke=3D'%23134252' =
+stroke-width=3D'2' stroke-linecap=3D'round' stroke-linejoin=3D'round'%3E%3C=
+polyline points=3D'6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); --select-=
+caret-dark: url("data:image/svg+xml,%3Csvg xmlns=3D'http://www.w3.org/2000/=
+svg' width=3D'16' height=3D'16' viewBox=3D'0 0 24 24' fill=3D'none' stroke=
+=3D'%23f5f5f5' stroke-width=3D'2' stroke-linecap=3D'round' stroke-linejoin=
+=3D'round'%3E%3Cpolyline points=3D'6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg=
+%3E"); --color-success-rgb: 50, 184, 198; --color-error-rgb: 255, 84, 89; -=
+-color-warning-rgb: 230, 129, 97; --color-info-rgb: 167, 169, 169; }
+}
+
+[data-color-scheme=3D"dark"] { --color-background: rgba(31, 33, 33, 1); --c=
+olor-surface: rgba(38, 40, 40, 1); --color-text: rgba(245, 245, 245, 1); --=
+color-text-secondary: rgba(167, 169, 169, 0.7); --color-primary: rgba(50, 1=
+84, 198, 1); --color-primary-hover: rgba(45, 166, 178, 1); --color-primary-=
+active: rgba(41, 150, 161, 1); --color-secondary: rgba(119, 124, 124, 0.15)=
+; --color-secondary-hover: rgba(119, 124, 124, 0.25); --color-secondary-act=
+ive: rgba(119, 124, 124, 0.3); --color-border: rgba(119, 124, 124, 0.3); --=
+color-error: rgba(255, 84, 89, 1); --color-success: rgba(50, 184, 198, 1); =
+--color-warning: rgba(230, 129, 97, 1); --color-info: rgba(167, 169, 169, 1=
+); --color-focus-ring: rgba(50, 184, 198, 0.4); --color-btn-primary-text: r=
+gba(19, 52, 59, 1); --color-card-border: rgba(119, 124, 124, 0.15); --color=
+-card-border-inner: rgba(119, 124, 124, 0.15); --shadow-inset-sm: inset 0 1=
+px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.15); --color-border-secondary: rgba(119,=
+ 124, 124, 0.2); --color-select-caret: rgba(245, 245, 245, 0.8); --focus-ri=
+ng: 0 0 0 3px var(--color-focus-ring); --focus-outline: 2px solid var(--col=
+or-primary); --status-bg-opacity: 0.15; --status-border-opacity: 0.25; --se=
+lect-caret-light: url("data:image/svg+xml,%3Csvg xmlns=3D'http://www.w3.org=
+/2000/svg' width=3D'16' height=3D'16' viewBox=3D'0 0 24 24' fill=3D'none' s=
+troke=3D'%23134252' stroke-width=3D'2' stroke-linecap=3D'round' stroke-line=
+join=3D'round'%3E%3Cpolyline points=3D'6 9 12 15 18 9'%3E%3C/polyline%3E%3C=
+/svg%3E"); --select-caret-dark: url("data:image/svg+xml,%3Csvg xmlns=3D'htt=
+p://www.w3.org/2000/svg' width=3D'16' height=3D'16' viewBox=3D'0 0 24 24' f=
+ill=3D'none' stroke=3D'%23f5f5f5' stroke-width=3D'2' stroke-linecap=3D'roun=
+d' stroke-linejoin=3D'round'%3E%3Cpolyline points=3D'6 9 12 15 18 9'%3E%3C/=
+polyline%3E%3C/svg%3E"); --color-success-rgb: 50, 184, 198; --color-error-r=
+gb: 255, 84, 89; --color-warning-rgb: 230, 129, 97; --color-info-rgb: 167, =
+169, 169; }
+
+[data-color-scheme=3D"light"] { --color-background: rgba(252, 252, 249, 1);=
+ --color-surface: rgba(255, 255, 253, 1); --color-text: rgba(19, 52, 59, 1)=
+; --color-text-secondary: rgba(98, 108, 113, 1); --color-primary: rgba(33, =
+128, 141, 1); --color-primary-hover: rgba(29, 116, 128, 1); --color-primary=
+-active: rgba(26, 104, 115, 1); --color-secondary: rgba(94, 82, 64, 0.12); =
+--color-secondary-hover: rgba(94, 82, 64, 0.2); --color-secondary-active: r=
+gba(94, 82, 64, 0.25); --color-border: rgba(94, 82, 64, 0.2); --color-btn-p=
+rimary-text: rgba(252, 252, 249, 1); --color-card-border: rgba(94, 82, 64, =
+0.12); --color-card-border-inner: rgba(94, 82, 64, 0.12); --color-error: rg=
+ba(192, 21, 47, 1); --color-success: rgba(33, 128, 141, 1); --color-warning=
+: rgba(168, 75, 47, 1); --color-info: rgba(98, 108, 113, 1); --color-focus-=
+ring: rgba(33, 128, 141, 0.4); --color-success-rgb: 33, 128, 141; --color-e=
+rror-rgb: 192, 21, 47; --color-warning-rgb: 168, 75, 47; --color-info-rgb: =
+98, 108, 113; }
+
+html { font-size: var(--font-size-base); font-family: var(--font-family-bas=
+e); line-height: var(--line-height-normal); color: var(--color-text); backg=
+round-color: var(--color-background); -webkit-font-smoothing: antialiased; =
+box-sizing: border-box; }
+
+body { margin: 0px; padding: 0px; }
+
+*, ::before, ::after { box-sizing: inherit; }
+
+h1, h2, h3, h4, h5, h6 { margin: 0px; font-weight: var(--font-weight-semibo=
+ld); line-height: var(--line-height-tight); color: var(--color-text); lette=
+r-spacing: var(--letter-spacing-tight); }
+
+h1 { font-size: var(--font-size-4xl); }
+
+h2 { font-size: var(--font-size-3xl); }
+
+h3 { font-size: var(--font-size-2xl); }
+
+h4 { font-size: var(--font-size-xl); }
+
+h5 { font-size: var(--font-size-lg); }
+
+h6 { font-size: var(--font-size-md); }
+
+p { margin: 0 0 var(--space-16) 0; }
+
+a { color: var(--color-primary); text-decoration: none; transition: color v=
+ar(--duration-fast) var(--ease-standard); }
+
+a:hover { color: var(--color-primary-hover); }
+
+code, pre { font-family: var(--font-family-mono); font-size: calc(var(--fon=
+t-size-base) * 0.95); background-color: var(--color-secondary); border-radi=
+us: var(--radius-sm); }
+
+code { padding: var(--space-1) var(--space-4); }
+
+pre { padding: var(--space-16); margin: var(--space-16) 0; overflow: auto; =
+border: 1px solid var(--color-border); }
+
+pre code { background: none; padding: 0px; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; =
+padding: var(--space-8) var(--space-16); border-radius: var(--radius-base);=
+ font-size: var(--font-size-base); font-weight: 500; line-height: 1.5; curs=
+or: pointer; transition: all var(--duration-normal) var(--ease-standard); b=
+order: none; text-decoration: none; position: relative; }
+
+.btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+.btn--primary { background: var(--color-primary); color: var(--color-btn-pr=
+imary-text); }
+
+.btn--primary:hover { background: var(--color-primary-hover); }
+
+.btn--primary:active { background: var(--color-primary-active); }
+
+.btn--secondary { background: var(--color-secondary); color: var(--color-te=
+xt); }
+
+.btn--secondary:hover { background: var(--color-secondary-hover); }
+
+.btn--secondary:active { background: var(--color-secondary-active); }
+
+.btn--outline { background: transparent; border: 1px solid var(--color-bord=
+er); color: var(--color-text); }
+
+.btn--outline:hover { background: var(--color-secondary); }
+
+.btn--sm { padding: var(--space-4) var(--space-12); font-size: var(--font-s=
+ize-sm); border-radius: var(--radius-sm); }
+
+.btn--lg { padding: var(--space-10) var(--space-20); font-size: var(--font-=
+size-lg); border-radius: var(--radius-md); }
+
+.btn--full-width { width: 100%; }
+
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.form-control { display: block; width: 100%; padding: var(--space-8) var(--=
+space-12); font-size: var(--font-size-md); line-height: 1.5; color: var(--c=
+olor-text); background-color: var(--color-surface); border: 1px solid var(-=
+-color-border); border-radius: var(--radius-base); transition: border-color=
+ var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard); }
+
+textarea.form-control { font-family: var(--font-family-base); font-size: va=
+r(--font-size-base); }
+
+select.form-control { padding-top: ; padding-bottom: ; padding-left: ; appe=
+arance: none; background-image: var(--select-caret-light); background-repea=
+t: no-repeat; background-position: right var(--space-12) center; background=
+-size: 16px; padding-right: var(--space-32); }
+
+@media (prefers-color-scheme: dark) {
+  select.form-control { background-image: var(--select-caret-dark); }
+}
+
+[data-color-scheme=3D"dark"] select.form-control { background-image: var(--=
+select-caret-dark); }
+
+[data-color-scheme=3D"light"] select.form-control { background-image: var(-=
+-select-caret-light); }
+
+.form-control:focus { border-color: var(--color-primary); outline: var(--fo=
+cus-outline); }
+
+.form-label { display: block; margin-bottom: var(--space-8); font-weight: v=
+ar(--font-weight-medium); font-size: var(--font-size-sm); }
+
+.form-group { margin-bottom: var(--space-16); }
+
+.card { background-color: var(--color-surface); border-radius: var(--radius=
+-lg); border: 1px solid var(--color-card-border); box-shadow: var(--shadow-=
+sm); overflow: hidden; transition: box-shadow var(--duration-normal) var(--=
+ease-standard); }
+
+.card:hover { box-shadow: var(--shadow-md); }
+
+.card__body { padding: var(--space-16); }
+
+.card__header, .card__footer { padding: var(--space-16); border-bottom: 1px=
+ solid var(--color-card-border-inner); }
+
+.status { display: inline-flex; align-items: center; padding: var(--space-6=
+) var(--space-12); border-radius: var(--radius-full); font-weight: var(--fo=
+nt-weight-medium); font-size: var(--font-size-sm); }
+
+.status--success { background-color: rgba(
+    var(--color-success-rgb, 33, 128, 141),
+    var(--status-bg-opacity)
+  ); color: var(--color-success); border: 1px solid
+    rgba(var(--color-success-rgb, 33, 128, 141), var(--status-border-opacit=
+y)); }
+
+.status--error { background-color: rgba(
+    var(--color-error-rgb, 192, 21, 47),
+    var(--status-bg-opacity)
+  ); color: var(--color-error); border: 1px solid
+    rgba(var(--color-error-rgb, 192, 21, 47), var(--status-border-opacity))=
+; }
+
+.status--warning { background-color: rgba(
+    var(--color-warning-rgb, 168, 75, 47),
+    var(--status-bg-opacity)
+  ); color: var(--color-warning); border: 1px solid
+    rgba(var(--color-warning-rgb, 168, 75, 47), var(--status-border-opacity=
+)); }
+
+.status--info { background-color: rgba(
+    var(--color-info-rgb, 98, 108, 113),
+    var(--status-bg-opacity)
+  ); color: var(--color-info); border: 1px solid
+    rgba(var(--color-info-rgb, 98, 108, 113), var(--status-border-opacity))=
+; }
+
+.container { width: 100%; margin-right: auto; margin-left: auto; padding-ri=
+ght: var(--space-16); padding-left: var(--space-16); }
+
+@media (min-width: 640px) {
+  .container { max-width: var(--container-sm); }
+}
+
+@media (min-width: 768px) {
+  .container { max-width: var(--container-md); }
+}
+
+@media (min-width: 1024px) {
+  .container { max-width: var(--container-lg); }
+}
+
+@media (min-width: 1280px) {
+  .container { max-width: var(--container-xl); }
+}
+
+.flex { display: flex; }
+
+.flex-col { flex-direction: column; }
+
+.items-center { align-items: center; }
+
+.justify-center { justify-content: center; }
+
+.justify-between { justify-content: space-between; }
+
+.gap-4 { gap: var(--space-4); }
+
+.gap-8 { gap: var(--space-8); }
+
+.gap-16 { gap: var(--space-16); }
+
+.m-0 { margin: 0px; }
+
+.mt-8 { margin-top: var(--space-8); }
+
+.mb-8 { margin-bottom: var(--space-8); }
+
+.mx-8 { margin-left: var(--space-8); margin-right: var(--space-8); }
+
+.my-8 { margin-top: var(--space-8); margin-bottom: var(--space-8); }
+
+.p-0 { padding: 0px; }
+
+.py-8 { padding-top: var(--space-8); padding-bottom: var(--space-8); }
+
+.px-8 { padding-left: var(--space-8); padding-right: var(--space-8); }
+
+.py-16 { padding-top: var(--space-16); padding-bottom: var(--space-16); }
+
+.px-16 { padding-left: var(--space-16); padding-right: var(--space-16); }
+
+.block { display: block; }
+
+.hidden { display: none; }
+
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0px; margi=
+n: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: now=
+rap; border-width: 0px; }
+
+:focus-visible { outline: var(--focus-outline); outline-offset: 2px; }
+
+[data-color-scheme=3D"dark"] .btn--outline { border: 1px solid var(--color-=
+border-secondary); }
+
+@font-face { font-family: FKGroteskNeue; src: url("https://r2cdn.perplexity=
+.ai/fonts/FKGroteskNeue.woff2") format("woff2"); }
+
+.guide-container { display: flex; min-height: 100vh; position: relative; }
+
+.sidebar { width: 280px; height: 100vh; position: fixed; left: 0px; top: 0p=
+x; background-color: var(--color-surface); border-right: 1px solid var(--co=
+lor-border); overflow-y: auto; transition: transform 0.3s var(--ease-standa=
+rd); z-index: 100; }
+
+.sidebar-header { display: flex; justify-content: space-between; align-item=
+s: center; padding: var(--space-16); border-bottom: 1px solid var(--color-b=
+order); }
+
+.sidebar-header h2 { margin: 0px; font-size: var(--font-size-xl); }
+
+.sidebar-toggle { display: none; background: none; border: none; font-size:=
+ var(--font-size-xl); cursor: pointer; color: var(--color-text); }
+
+.search-container { padding: var(--space-12) var(--space-16); border-bottom=
+: 1px solid var(--color-border); }
+
+.progress-container { padding: var(--space-12) var(--space-16); border-bott=
+om: 1px solid var(--color-border); }
+
+.progress-bar { height: 8px; background-color: var(--color-secondary); bord=
+er-radius: var(--radius-full); overflow: hidden; margin-bottom: var(--space=
+-8); }
+
+.progress-fill { height: 100%; width: 0px; background-color: var(--color-pr=
+imary); transition: width 0.3s var(--ease-standard); }
+
+.progress-text { font-size: var(--font-size-sm); color: var(--color-text-se=
+condary); }
+
+.nav-menu { list-style: none; padding: 0px; margin: 0px; }
+
+.nav-item { border-bottom: 1px solid var(--color-card-border-inner); }
+
+.nav-link { display: flex; align-items: center; padding: var(--space-12) va=
+r(--space-16); color: var(--color-text); text-decoration: none; font-weight=
+: var(--font-weight-medium); transition: background-color 0.2s var(--ease-s=
+tandard); }
+
+.nav-link:hover { background-color: var(--color-secondary); color: var(--co=
+lor-text); }
+
+.nav-link.active { background-color: var(--color-secondary-hover); color: v=
+ar(--color-primary); border-left: 3px solid var(--color-primary); }
+
+.nav-icon { margin-right: var(--space-8); font-size: var(--font-size-lg); }
+
+.nav-submenu { list-style: none; padding: 0px; margin: 0px; max-height: 0px=
+; overflow: hidden; transition: max-height 0.3s var(--ease-standard); }
+
+.nav-submenu.open { max-height: 500px; }
+
+.nav-sublink { display: block; padding: var(--space-8) var(--space-16) var(=
+--space-8) var(--space-32); color: var(--color-text-secondary); text-decora=
+tion: none; font-size: var(--font-size-sm); transition: background-color 0.=
+2s var(--ease-standard); }
+
+.nav-sublink:hover { background-color: var(--color-secondary); color: var(-=
+-color-text); }
+
+.nav-sublink.active { color: var(--color-primary); font-weight: var(--font-=
+weight-medium); background-color: var(--color-secondary); }
+
+.main-content { flex: 1 1 0%; margin-left: 280px; padding: var(--space-32);=
+ max-width: calc(100% - 280px); }
+
+.content-header { margin-bottom: var(--space-32); border-bottom: 1px solid =
+var(--color-border); padding-bottom: var(--space-16); }
+
+.content-header h1 { margin-bottom: var(--space-8); }
+
+.lead { font-size: var(--font-size-xl); color: var(--color-text-secondary);=
+ margin-bottom: var(--space-16); }
+
+.content-section { margin-bottom: var(--space-32); animation: fadeIn 0.3s v=
+ar(--ease-standard); }
+
+.subsection { margin-bottom: var(--space-24); padding-bottom: var(--space-1=
+6); border-bottom: 1px solid var(--color-border); }
+
+.subsection h3 { margin-bottom: var(--space-16); color: var(--color-text); =
+}
+
+.tab-container { margin: var(--space-16) 0; border: 1px solid var(--color-b=
+order); border-radius: var(--radius-md); overflow: hidden; }
+
+.tab-buttons { display: flex; background-color: var(--color-secondary); bor=
+der-bottom: 1px solid var(--color-border); }
+
+.tab-button { padding: var(--space-10) var(--space-16); background: none; b=
+order: none; cursor: pointer; font-size: var(--font-size-sm); font-weight: =
+var(--font-weight-medium); color: var(--color-text); transition: background=
+-color 0.2s var(--ease-standard); flex: 1 1 0%; text-align: center; }
+
+.tab-button:hover { background-color: var(--color-secondary-hover); }
+
+.tab-button.active { background-color: var(--color-surface); border-bottom:=
+ 2px solid var(--color-primary); }
+
+.tab-panel { display: none; padding: var(--space-16); background-color: var=
+(--color-surface); }
+
+.tab-panel.active { display: block; animation: fadeIn 0.3s var(--ease-stand=
+ard); }
+
+.code-example { margin: var(--space-16) 0; border-radius: var(--radius-md);=
+ overflow: hidden; box-shadow: var(--shadow-sm); }
+
+.code-header { display: flex; justify-content: space-between; align-items: =
+center; padding: var(--space-8) var(--space-12); background-color: var(--co=
+lor-secondary-hover); font-family: var(--font-family-mono); font-size: var(=
+--font-size-sm); color: var(--color-text); }
+
+.copy-btn { background-color: var(--color-secondary); border: 1px solid var=
+(--color-border); border-radius: var(--radius-sm); padding: var(--space-4) =
+var(--space-8); font-size: var(--font-size-xs); cursor: pointer; transition=
+: background-color 0.2s var(--ease-standard); }
+
+.copy-btn:hover { background-color: var(--color-secondary-hover); }
+
+.copy-btn:active { background-color: var(--color-secondary-active); }
+
+pre[class*=3D"language-"] { margin: 0px; border-radius: 0px; border: none; =
+}
+
+code[class*=3D"language-"] { font-family: var(--font-family-mono); }
+
+.info-box, .tip-box { margin: var(--space-16) 0; padding: var(--space-16); =
+border-radius: var(--radius-md); border-left: 4px solid var(--color-primary=
+); background-color: var(--color-secondary); }
+
+.info-box h4, .tip-box h4 { margin-bottom: var(--space-8); display: flex; a=
+lign-items: center; gap: var(--space-8); }
+
+.tip-box { border-left-color: var(--color-warning); }
+
+.structure-diagram { display: flex; flex-wrap: wrap; gap: var(--space-16); =
+margin: var(--space-16) 0; }
+
+.structure-item { flex: 1 1 0%; min-width: 200px; padding: var(--space-16);=
+ border-radius: var(--radius-md); background-color: var(--color-surface); b=
+order: 1px solid var(--color-card-border); text-align: center; }
+
+.structure-icon { font-size: 2rem; margin-bottom: var(--space-8); }
+
+.structure-item h4 { margin-bottom: var(--space-8); }
+
+.structure-item p { color: var(--color-text-secondary); margin-bottom: 0px;=
+ }
+
+.syntax-grid { display: grid; grid-template-columns: repeat(auto-fill, minm=
+ax(300px, 1fr)); gap: var(--space-16); margin: var(--space-16) 0; }
+
+.syntax-item { border-radius: var(--radius-md); border: 1px solid var(--col=
+or-card-border); overflow: hidden; }
+
+.syntax-item h4 { padding: var(--space-8) var(--space-12); background-color=
+: var(--color-secondary); margin: 0px; font-size: var(--font-size-md); }
+
+.syntax-item .code-example { margin: 0px; border-radius: 0px; }
+
+.step-by-step { margin: var(--space-16) 0; }
+
+.step { display: flex; margin-bottom: var(--space-16); align-items: flex-st=
+art; }
+
+.step-number { display: flex; align-items: center; justify-content: center;=
+ width: 32px; height: 32px; border-radius: 50%; background-color: var(--col=
+or-primary); color: var(--color-btn-primary-text); font-weight: var(--font-=
+weight-bold); margin-right: var(--space-16); flex-shrink: 0; }
+
+.step-content { flex: 1 1 0%; }
+
+.step-content h4 { margin-bottom: var(--space-8); }
+
+.step-content p { margin-bottom: var(--space-8); }
+
+.section-completion { display: flex; flex-wrap: wrap; gap: var(--space-8); =
+margin: var(--space-24) 0; padding-top: var(--space-16); border-top: 1px so=
+lid var(--color-border); }
+
+.coming-sections { background-color: var(--color-secondary); padding: var(-=
+-space-16); border-radius: var(--radius-md); margin-top: var(--space-32); t=
+ext-align: center; }
+
+@keyframes fadeIn {=20
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@media (max-width: 1024px) {
+  .syntax-grid { grid-template-columns: 1fr; }
+  .structure-diagram { flex-direction: column; }
+}
+
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(-100%); width: 250px; }
+  .sidebar.open { transform: translateX(0px); }
+  .main-content { margin-left: 0px; max-width: 100%; padding: var(--space-1=
+6); }
+  .sidebar-toggle { display: block; }
+  .content-header { position: relative; }
+  .mobile-menu-toggle { display: block; position: absolute; right: 0px; top=
+: 0px; }
+}
+
+.mark-complete { position: relative; overflow: hidden; }
+
+.mark-complete::after { content: ""; position: absolute; top: 0px; left: 0p=
+x; width: 0px; height: 100%; background-color: rgba(255, 255, 255, 0.2); tr=
+ansition: width 0.3s var(--ease-standard); }
+
+.mark-complete.completed::after { width: 100%; }
+
+#section-4, #section-5, #section-6, #section-7, #section-8 { display: none;=
+ }
+
+#section-4.loaded, #section-5.loaded, #section-6.loaded, #section-7.loaded,=
+ #section-8.loaded { display: block; animation: fadeIn 0.5s var(--ease-stan=
+dard); }
+------MultipartBoundary--JYUbZ5AJBEgsvsYy7NDTiva26Y7gW9xALK0wTWGKVM----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: cid:css-b7437ad0-1dc1-4e28-ac83-ba577803c59a@mhtml.blink
+
+@charset "utf-8";
+
+[_nghost-ng-c2697620354] { font-family: "Open Sans", sans-serif; color: rgb=
+(18, 18, 18); }
+------MultipartBoundary--JYUbZ5AJBEgsvsYy7NDTiva26Y7gW9xALK0wTWGKVM------
