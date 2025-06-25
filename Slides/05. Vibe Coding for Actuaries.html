@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial: Strumenti AI per R e RStudio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-tab {
+            flex: 1;
+            padding: 1rem;
+            text-align: center;
+            background: #f8f9fa;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .nav-tab:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+        
+        .nav-tab.active {
+            background: #007bff;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0,123,255,0.3);
+        }
+        
+        .content {
+            padding: 2rem;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tool-card {
+            background: #f8f9fa;
+            border-left: 5px solid #007bff;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .tool-card h3 {
+            color: #007bff;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 1rem 0;
+            position: relative;
+            overflow-x: auto;
+        }
+        
+        .code-block::before {
+            content: "R";
+            position: absolute;
+            top: 0.5rem;
+            right: 1rem;
+            background: #4a5568;
+            color: #e2e8f0;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 3rem;
+            background: #4299e1;
+            color: white;
+            border: none;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background 0.3s ease;
+        }
+        
+        .copy-btn:hover {
+            background: #3182ce;
+        }
+        
+        .step {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            margin: 1rem 0;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .step-header {
+            background: #007bff;
+            color: white;
+            padding: 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+        
+        .step-header:hover {
+            background: #0056b3;
+        }
+        
+        .step-content {
+            padding: 1.5rem;
+            display: none;
+        }
+        
+        .step-content.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; height: 0; }
+            to { opacity: 1; height: auto; }
+        }
+        
+        .arrow {
+            transition: transform 0.3s ease;
+        }
+        
+        .arrow.rotate {
+            transform: rotate(180deg);
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 5px solid #f39c12;
+        }
+        
+        .info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 5px solid #17a2b8;
+        }
+        
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 5px solid #28a745;
+        }
+        
+        .provider-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .provider-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .provider-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #007bff, #28a745);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .interactive-demo {
+            background: #f8f9fa;
+            border: 2px dashed #007bff;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+        
+        .demo-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-btn:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+        
+        .footer {
+            background: #2d3748;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🤖 Strumenti AI per R e RStudio</h1>
+            <p>Guida completa per integrare l'Intelligenza Artificiale nel tuo workflow R</p>
+        </header>
+
+        <nav class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab(0)">Introduzione</button>
+            <button class="nav-tab" onclick="showTab(1)">ellmer</button>
+            <button class="nav-tab" onclick="showTab(2)">GitHub Copilot</button>
+            <button class="nav-tab" onclick="showTab(3)">gander</button>
+            <button class="nav-tab" onclick="showTab(4)">groqR</button>
+            <button class="nav-tab" onclick="showTab(5)">Conclusioni</button>
+        </nav>
+
+        <div class="content">
+            <!-- Tab 0: Introduzione -->
+            <div class="tab-content active">
+                <h2>🚀 Benvenuto nel Futuro della Programmazione R</h2>
+                <p>Nel mondo della scienza dei dati e della programmazione in R, l'integrazione dell'Intelligenza Artificiale (AI) e dei Large Language Models (LLM) può migliorare significativamente la produttività e l'efficienza.</p>
+                
+                <div class="tool-card">
+                    <h3>I Quattro Pilastri dell'AI in R</h3>
+                    <div class="provider-grid">
+                        <div class="provider-card">
+                            <h4>📦 ellmer</h4>
+                            <p>L'interfaccia principale per LLM in R. Supporta molteplici fornitori e funzionalità avanzate.</p>
+                        </div>
+                        <div class="provider-card">
+                            <h4>👨‍💻 GitHub Copilot</h4>
+                            <p>AI pair programmer integrato in RStudio per suggerimenti di codice in tempo reale.</p>
+                        </div>
+                        <div class="provider-card">
+                            <h4>🎯 gander</h4>
+                            <p>Chat ad alte prestazioni con consapevolezza dell'ambiente R per interazioni contestuali.</p>
+                        </div>
+                        <div class="provider-card">
+                            <h4>⚡ groqR</h4>
+                            <p>Accesso ultra-veloce ai modelli LLM tramite l'infrastruttura Groq per inferenza rapida.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info">
+                    <strong>💡 Obiettivo del Tutorial:</strong> Al termine di questa guida, saprai come configurare e utilizzare tutti e quattro gli strumenti per massimizzare la tua produttività in R.
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressBar"></div>
+                </div>
+            </div>
+
+            <!-- Tab 1: ellmer -->
+            <div class="tab-content">
+                <h2>📦 ellmer: L'Interfaccia Principale per LLM</h2>
+                
+                <div class="step">
+                    <div class="step-header" onclick="toggleStep(this)">
+                        <h3>Step 1: Installazione</h3>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="step-content">
+                        <p>Iniziamo installando ellmer dal repository CRAN:</p>
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">Copia</button>
+<pre># Installazione del pacchetto ellmer
+install.packages("ellmer")
+
+# Caricamento della libreria
+library(ellmer)</pre>
+                        </div>
+                        <div class="success">
+                            ✅ <strong>Verifica:</strong> Dopo l'installazione, verifica che il pacchetto sia caricato correttamente.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-header" onclick="toggleStep(this)">
+                        <h3>Step 2: Scelta del Fornitore di Modelli</h3>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="step-content">
+                        <p>ellmer supporta una vasta gamma di fornitori. Ecco le opzioni principali:</p>
+                        
+                        <div class="provider-grid">
+                            <div class="provider-card">
+                                <h4>Anthropic Claude</h4>
+                                <div class="code-block">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copia</button>
+<pre># Configurazione per Anthropic Claude
+chat_anthropic()</pre>
+                                </div>
+                            </div>
+                            <div class="provider-card">
+                                <h4>OpenAI GPT</h4>
+                                <div class="code-block">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copia</button>
+<pre># Configurazione per OpenAI GPT
+chat_openai()</pre>
+                                </div>
+                            </div>
+                            <div class="provider-card">
+                                <h4>Google Gemini</h4>
+                                <div class="code-block">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copia</button>
+<pre># Configurazione per Google Gemini
+chat_google_gemini()</pre>
+                                </div>
+                            </div>
+                            <div class="provider-card">
+                                <h4>Ollama (Locale)</h4>
+                                <div class="code-block">
+                                    <button class="copy-btn" onclick="copyCode(this)">Copia</button>
+<pre># Configurazione per Ollama (modelli locali)
+chat_ollama()</pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info">
+                            <strong>💡 Raccomandazioni:</strong>
+                            <ul>
+                                <li><span class="highlight">Per principianti:</span> chat_openai() o chat_anthropic()</li>
+                                <li><span class="highlight">Per uso gratuito:</span> chat_google_gemini()</li>
+                                <li><span class="highlight">Per privacy:</span> chat_ollama() (modelli locali)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-header" onclick="toggleStep(this)">
+                        <h3>Step 3: Configurazione dell'Autenticazione</h3>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="step-content">
+                        <p>La maggior parte dei fornitori richiede una chiave API. Ecco come configurarla:</p>
+                        
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">Copia</button>
+<pre># Metodo 1: Variabile d'ambiente (RACCOMANDATO)
+# Aggiungi al tuo .Renviron:
+
+# OPENAI_API_KEY=tua_chiave_qui
+# ANTHROPIC_API_KEY=tua_chiave_qui
+
+# Metodo 2: Durante la sessione
+Sys.setenv(OPENAI_API_KEY = "tua_chiave_qui")</pre>
+                        </div>
+
+                        <div class="warning">
+                            ⚠️ <strong>Sicurezza:</strong> Non includere mai le chiavi API direttamente nel codice. Usa sempre variabili d'ambiente.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-header" onclick="toggleStep(this)">
+                        <h3>Step 4: Primo Utilizzo</h3>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="step-content">
+                        <p>Creiamo il nostro primo oggetto chat:</p>
+                        
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">Copia</button>
+<pre># Caricamento della libreria ellmer
+library(ellmer)
+
+# Creazione di un oggetto chat
+chat <- chat_openai(
+  model = "gpt-4o-mini",
+  system_prompt = "Sei un assistente R esperto e conciso."
+)
+
+# Prima domanda al modello
+risposta <- chat$chat("Come creo un ggplot base in R?")
+
+# Visualizzazione della risposta
+print(risposta)</pre>
+                        </div>
+
+                        <div class="interactive-demo">
+                            <h4>🎮 Demo Interattiva</h4>
+                            <p>Simula una chat con ellmer:</p>
+                            <button class="demo-btn" onclick="simulateChat()">Avvia Chat Demo</button>
+                            <div id="chatDemo" style="display:none; margin-top:1rem; text-align:left;">
+                                <div style="background:#e3f2fd; padding:1rem; border-radius:8px; margin:0.5rem 0;">
+                                    <strong>Tu:</strong> Come creo un ggplot base in R?
+                                </div>
+                                <div style="background:#f3e5f5; padding:1rem; border-radius:8px; margin:0.5rem 0;">
+                                    <strong>AI:</strong> Ecco un esempio base di ggplot2:<br>
+                                    <code>library(ggplot2)<br>
+                                    ggplot(data = mtcars, aes(x = wt, y = mpg)) +<br>
+                                    &nbsp;&nbsp;geom_point()</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-header" onclick="toggleStep(this)">
+                        <h3>Step 5: Modalità Interattive</h3>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="step-content">
+                        <p>ellmer offre diverse modalità di interazione:</p>
+                        
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">Copia</button>
+<pre># Console interattiva in R
+live_console(chat)
+
+# Interfaccia browser per chat
+live_browser(chat)
+
+# Chat con immagini
+chat$chat(
+  "Analizza questo grafico",
+  content_image_file("path/to/image.png")
+)</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: GitHub Copilot -->
+            <div class="tab-content">
+                <h2>👨‍💻 GitHub Copilot: Il Tuo AI Pair Programmer</h2>
+                
+                <div class="step">
+                    <div class="step-header" onclick="toggleStep(this)">
+                        <h3>Step 1: Prerequisiti</h3>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="step-content">
+                        <p>Prima di iniziare, assicurati di avere:</p>
+                        <ul>
+                            <li>✅ Account GitHub attivo</li>
+                            <li>✅ Sottoscrizione Copilot (gratuita per studenti/docenti)</li>
+                            <li>✅ RStudio Desktop 2023.09.0 o successiva</li>
+                            <li>✅ Connessione Internet stabile</li>
+                        </ul>
+                        
+                        <div class="info">
+                            <strong>💡 Per Studenti:</strong> GitHub Copilot è gratuito tramite il programma GitHub Education. Richiedi l'accesso su <a href="https://education.github.com/" target="_blank">education.github.com</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-header" onclick="toggleStep(this)">
+                        <h3>Step 2: Configurazione in RStudio</h3>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="step-content">
+                        <p>Segui questi passaggi per abilitare Copilot:</p>
+                        
+                        <ol>
+                            <li>Apri RStudio</li>
+                            <li>Naviga su <strong>Tools → Global Options → Copilot</strong></li>
+                            <li>Spunta <strong>"Enable GitHub Copilot"</strong></li>
+                            <li>Clicca <strong>"Download and Install"</strong> per i componenti Agent</li>
+                            <li>Clicca <strong>"Sign In"</strong></li>
+                            <li>Copia il codice di verifica mostrato</li>
+                            <li>Vai su <a href="https://github.com/login/device" target="_blank">github.com/login/device</a></li>
+                            <li>Incolla il codice e autorizza le permessi</li>
+                        </ol>
+
+                        <div class="success">
+                            ✅ <strong>Verifica:</strong> Dovresti vedere un'icona Copilot nella barra di stato di RStudio.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-header" onclick="toggleStep(this)">
+                        <h3>Step 3: Primo Utilizzo</h3>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="step-content">
+                        <p>Iniziamo con un esempio pratico:</p>
+                        
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">Copia</button>
+<pre># Inizia a digitare un commento descrittivo
+# Crea un grafico a dispersione di mpg vs wt dal dataset mtcars
+
+# Copilot suggerirà automaticamente:
+library(ggplot2)
+
+ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point() +
+  labs(
+    title = "Relazione tra Peso e Consumi",
+    x = "Peso (1000 lbs)",
+    y = "Miglia per Gallone"
+  )</pre>
+                        </div>
+
+                        <div class="info">
+                            <strong>💡 Come Funziona:</strong>
+                            <ul>
+                                <li>Copilot analizza il tuo commento</li>
+                                <li>Genera suggerimenti come "ghost text" grigio</li>
+                                <li>Premi <kbd>Tab</kbd> per accettare</li>
+                                <li>Premi <kbd>Esc</kbd> per rifiutare</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-header" onclick="toggleStep(this)">
+                        <h3>Step 4: Tecniche Avanzate</h3>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="step-content">
+                        <p>Massimizza l'efficacia di Copilot con questi suggerimenti:</p>
+                        
+                        <div class="tool-card">
+                            <h4>🎯 Commenti Efficaci</h4>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">Copia</button>
+<pre># BUONO: Specifico e chiaro
+# Crea una funzione che calcola la media mobile di una serie temporale
+
+# OTTIMO: Include dettagli tecnici
+# Funzione per media mobile con finestra di n giorni, 
+# gestione valori NA e opzione centrata</pre>
+                            </div>
+                        </div>
+
+                        <div class="tool-card">
+                            <h4>❓ Q&A con Copilot</h4>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">Copia</button>
+<pre># q: Qual è la differenza tra data.frame e tibble?
+
+# a: tibble è una versione moderna di data.frame con:
+# - Stampa più pulita e informativa
+# - Non converte stringhe in fattori automaticamente
+# - Subset più rigoroso (no partial matching)
+# - Migliore gestione dei nomi delle colonne</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-header" onclick="toggleStep(this)">
+                        <h3>Step 5: Configurazioni Avanzate</h3>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="step-content">
+                        <p>Per ambienti aziendali o configurazioni specifiche:</p>
+                        
+                        <div class="warning">
+                            <strong>⚙️ Configurazioni Server:</strong>
+                            <ul>
+                                <li><strong>Proxy:</strong> <code>copilot-proxy-url=&lt;url&gt;</code> in rsession.conf</li>
+                                <li><strong>SSL Custom:</strong> <code>copilot-ssl-certificates-file=&lt;path&gt;</code></li>
+                                <li><strong>Indicizzazione Progetto:</strong> Abilita in Options per contesto esteso</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: gander -->
+            <div class="tab-content">
+                <h2>🎯 gander: Chat Consapevole dell'Ambiente R</h2>
+                
+                <div class="step">
+                    <div class="step-header" onclick="toggleStep(this)">
+                        <h3>Step 1: Installazione</h3>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="step-content">
+                        <p>Installa gander dal CRAN o dalla versione di sviluppo:</p>
+                        
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">Copia</button>
+<pre># Versione CRAN (stabile)
+install.packages("gander")
+
+# Versione di sviluppo (più recente)
+pak::pak("simonpcouch/gander")
+
+# Caricamento della libreria
+library(gander)</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-header" onclick="toggleStep(this)">
+                        <h3>Step 2: Configurazione con ellmer</h3>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="step-content">
+                        <p>gander funziona insieme a ellmer. Configura il modello che preferisci:</p>
+                        
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">Copia</button>
+# Configura il modello (esempio con Claude)
+options(.gander_chat = ellmer::chat_anthropic())
+
+# Oppure con OpenAI
+options(.gander_chat = ellmer::chat_openai(model = "gpt-4o"))
+
+# Per rendere persistente, aggiungi al tuo .Rprofile:
+usethis::edit_r_profile()
+
+# Poi incolla: 
+options(.gander_chat = ellmer::chat_anthropic())
+                        </div>
+
+                        <div class="info">
+                            <strong>💡 Scelta del Modello:</strong> Claude Sonnet è particolarmente efficace per la scrittura di codice R, mentre GPT-4o offre ottime prestazioni generali.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-header" onclick="toggleStep(this)">
+                        <h3>Step 3: Configurazione Scorciatoia da Tastiera</h3>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="step-content">
+                        <p>Per un accesso rapido, configura una scorciatoia:</p>
+                        
+                        <div class="tool-card">
+                            <h4>🖥️ In RStudio:</h4>
+                            <ol>
+                                <li>Vai su <strong>Tools → Modify Keyboard Shortcuts</strong></li>
+                                <li>Cerca "gander"</li>
+                                <li>Assegna <kbd>Ctrl+Alt+G</kbd> (Windows/Linux) o <kbd>Ctrl+Cmd+G</kbd> (macOS)</li>
+                            </ol>
+                        </div>
+
+                        <div class="tool-card">
+                            <h4>💜 In Positron:</h4>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">Copia</button>
+<pre>// Apri Command Palette → "Open Keyboard Shortcuts (JSON)"
+// Aggiungi questa configurazione:
+
+{
+  "key": "ctrl+cmd+g",
+  "command": "workbench.action.extensions.runCommand",
+  "args": {
+    "command": "gander.chat"
+  }
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-header" onclick="toggleStep(this)">
+                        <h3>Step 4: Utilizzo Pratico</h3>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="step-content">
+                        <p>Ecco come utilizzare gander nel tuo workflow quotidiano:</p>
+                        
+                        <div class="tool-card">
+                            <h4>🔍 Scenario 1: Analisi Esplorativa</h4>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">Copia</button>
+<pre># Carica i tuoi dati
+data(iris)
+df <- iris
+
+# Seleziona 'df' nell'editor, premi Ctrl+Alt+G e digita:
+# "Crea un grafico a dispersione colorato per specie"
+
+# gander genererà qualcosa come:
+library(ggplot2)
+
+ggplot(df, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
+  geom_point(size = 3, alpha = 0.7) +
+  theme_minimal() +
+  labs(
+    title = "Relazione tra Lunghezza e Larghezza del Sepalo",
+    x = "Lunghezza Sepalo (cm)",
+    y = "Larghezza Sepalo (cm)"
+  )</pre>
+                            </div>
+                        </div>
+
+                        <div class="tool-card">
+                            <h4>📊 Scenario 2: Iterazione Rapida</h4>
+                            <p>Dopo aver eseguito il codice precedente, riattiva gander e chiedi:</p>
+                            <ul>
+                                <li>"Aggiungi una linea di regressione"</li>
+                                <li>"Cambia il tema in theme_classic"</li>
+                                <li>"Salva il grafico come PNG"</li>
+                            </ul>
+                        </div>
+
+                        <div class="interactive-demo">
+                            <h4>🎮 Simulazione Workflow gander</h4>
+                            <button class="demo-btn" onclick="simulateGander()">Simula Sessione gander</button>
+                            <div id="ganderDemo" style="display:none; margin-top:1rem; text-align:left;">
+                                <div style="background:#fff3e0; padding:1rem; border-radius:8px; margin:0.5rem 0;">
+                                    <strong>Contesto Rilevato:</strong> Dataset 'mtcars' caricato (32 righe, 11 colonne)
+                                </div>
+                                <div style="background:#e3f2fd; padding:1rem; border-radius:8px; margin:0.5rem 0;">
+                                    <strong>Tu:</strong> Crea un boxplot di mpg per numero di cilindri
+                                </div>
+                                <div style="background:#f3e5f5; padding:1rem; border-radius:8px; margin:0.5rem 0;">
+                                    <strong>gander:</strong> <br>
+                                    <code>
+                                    ggplot(mtcars, aes(x = factor(cyl), y = mpg)) +<br>
+                                    &nbsp;&nbsp;geom_boxplot(fill = "lightblue", alpha = 0.7) +<br>
+                                    &nbsp;&nbsp;labs(<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;title = "Distribuzione MPG per Numero di Cilindri",<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;x = "Numero di Cilindri",<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;y = "Miglia per Gallone"<br>
+                                    &nbsp;&nbsp;) +<br>
+                                    &nbsp;&nbsp;theme_minimal()
+                                    </code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-header" onclick="toggleStep(this)">
+                        <h3>Step 5: Funzionalità Avanzate</h3>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="step-content">
+                        <p>gander offre funzionalità uniche grazie alla sua consapevolezza dell'ambiente:</p>
+                        
+                        <div class="tool-card">
+                            <h4>🧠 Contesto Automatico</h4>
+                            <p>gander rileva automaticamente:</p>
+                            <ul>
+                                <li><strong>Oggetti nell'ambiente:</strong> Nomi e struttura di data.frame, liste, funzioni</li>
+                                <li><strong>Contenuto dei file:</strong> Codice da altri file del progetto</li>
+                                <li><strong>Nomi delle colonne:</strong> Tipi di dati e struttura dei dataset</li>
+                                <li><strong>Immagini e plot:</strong> Grafici già creati nella sessione</li>
+                            </ul>
+                        </div>
+
+                        <div class="warning">
+                            <strong>⚠️ Limitazioni Attuali:</strong> gander funziona meglio con file .R. Per file .Qmd e .Rmd, la formattazione delle risposte potrebbe non essere ottimale.
+                        </div>
+
+                        <div class="info">
+                            <strong>📚 Approfondimenti:</strong> Per maggiori dettagli, consulta la vignette con <code>vignette("gander", package = "gander")</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 4: groqR -->
+            <div class="tab-content">
+                <h2>⚡ groqR: Inferenza Ultra-Veloce per LLM</h2>
+                
+                <div class="step">
+                    <div class="step-header" onclick="toggleStep(this)">
+                        <h3>Step 1: Cos'è groqR e Perché Usarlo</h3>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="step-content">
+                        <p>groqR è un pacchetto R che fornisce accesso all'infrastruttura Groq, specializzata nell'inferenza ultra-veloce di Large Language Models.</p>
+                        
+                        <div class="tool-card">
+                            <h4>🚀 Vantaggi di Groq:</h4>
+                            <ul>
+                                <li><strong>Velocità Estrema:</strong> Inferenza fino a 10x più veloce rispetto ad altri provider</li>
+                                <li><strong>Modelli Potenti:</strong> Accesso a Llama, Mixtral, Gemma e altri modelli open-source</li>
+                                <li><strong>Costi Competitivi:</strong> Prezzi vantaggiosi per l'inferenza rapida</li>
+                                <li><strong>Semplicità:</strong> API semplice e diretta</li>
+                            </ul>
+                        </div>
+
+                        <div class="info">
+                            <strong>💡 Ideale per:</strong> Prototipazione rapida, test iterativi, applicazioni che richiedono risposte immediate, e sviluppo di chatbot.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-header" onclick="toggleStep(this)">
+                        <h3>Step 2: Installazione</h3>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="step-content">
+                        <p>groqR non è ancora su CRAN, quindi installiamo dalla versione di sviluppo:</p>
+                        
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">Copia</button>
+<pre># Installazione da GitHub
+if (!require(devtools)) install.packages("devtools")
+devtools::install_github("socialresearchcentre/groqR")
+
+# Caricamento della libreria
+library(groqR)</pre>
+                        </div>
+
+                        <div class="warning">
+                            ⚠️ <strong>Prerequisito:</strong> Dovrai creare un account gratuito su <a href="https://console.groq.com/" target="_blank">console.groq.com</a> per ottenere la tua API key.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-header" onclick="toggleStep(this)">
+                        <h3>Step 3: Configurazione API Key</h3>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="step-content">
+                        <p>Configura la tua chiave API per accedere ai servizi Groq:</p>
+                        
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">Copia</button>
+<pre># Metodo 1: Variabile d'ambiente (RACCOMANDATO)
+# Aggiungi al tuo .Renviron:
+
+# GROQ_API_KEY=tua_chiave_groq_qui
+
+# Metodo 2: Durante la sessione
+Sys.setenv(GROQ_API_KEY = "tua_chiave_groq_qui")
+
+# Verifica configurazione
+groq_api_key_set()</pre>
+                        </div>
+
+                        <div class="info">
+                            <strong>🔑 Come ottenere la chiave:</strong>
+                            <ol>
+                                <li>Vai su <a href="https://console.groq.com/" target="_blank">console.groq.com</a></li>
+                                <li>Crea un account gratuito</li>
+                                <li>Naviga su "API Keys"</li>
+                                <li>Clicca "Create API Key"</li>
+                                <li>Copia la chiave generata</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-header" onclick="toggleStep(this)">
+                        <h3>Step 4: Modelli Disponibili</h3>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="step-content">
+                        <p>Groq offre accesso a diversi modelli ottimizzati per velocità:</p>
+                        
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">Copia</button>
+<pre># Visualizza tutti i modelli disponibili
+modelli_disponibili <- groq_models()
+print(modelli_disponibili)</pre>
+                        </div>
+
+                        <div class="provider-grid">
+                            <div class="provider-card">
+                                <h4>🦙 Llama 3.1</h4>
+                                <p><strong>8B:</strong> llama-3.1-8b-instant<br>
+                                <strong>70B:</strong> llama-3.1-70b-versatile<br>
+                                <strong>405B:</strong> llama-3.1-405b-reasoning</p>
+                            </div>
+                            <div class="provider-card">
+                                <h4>🔀 Mixtral</h4>
+                                <p><strong>8x7B:</strong> mixtral-8x7b-32768<br>
+                                Modello mixture-of-experts ad alte prestazioni</p>
+                            </div>
+                            <div class="provider-card">
+                                <h4>💎 Gemma</h4>
+                                <p><strong>7B:</strong> gemma-7b-it<br>
+                                <strong>2B:</strong> gemma2-9b-it<br>
+                                Modelli di Google ottimizzati</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-header" onclick="toggleStep(this)">
+                        <h3>Step 5: Primo Utilizzo</h3>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="step-content">
+                        <p>Iniziamo con una semplice richiesta:</p>
+                        
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">Copia</button>
+<pre># Chat semplice con Llama 3.1
+risposta <- groq_chat(
+  prompt = "Spiega in modo semplice cosa è ggplot2 in R",
+  model = "llama-3.1-8b-instant"
+)
+
+print(risposta)</pre>
+                        </div>
+
+                        <div class="tool-card">
+                            <h4>🔧 Parametri Principali:</h4>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">Copia</button>
+<pre># Configurazione avanzata
+risposta <- groq_chat(
+  prompt = "Il tuo prompt qui",
+  model = "llama-3.1-70b-versatile",
+  temperature = 0.7,        # Creatività (0-2)
+  max_tokens = 1000,        # Lunghezza massima risposta
+  system_prompt = "Sei un esperto R developer"
+)</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-header" onclick="toggleStep(this)">
+                        <h3>Step 6: Integrazione con ellmer e gander</h3>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="step-content">
+                        <p>groqR può essere integrato nell'ecosistema ellmer/gander:</p>
+                        
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">Copia</button>
+<pre># Usa Groq con ellmer (se supportato)
+# Nota: Verifica la compatibilità con la versione di ellmer
+chat_groq <- ellmer::chat_groq(
+  model = "llama-3.1-70b-versatile"
+)
+
+# Oppure crea una funzione wrapper per gander
+options(.gander_chat_groq = function(prompt) {
+  groq_chat(
+    prompt = prompt,
+    model = "llama-3.1-70b-versatile",
+    temperature = 0.3
+  )
+})</pre>
+                        </div>
+
+                        <div class="interactive-demo">
+                            <h4>🎮 Demo Velocità Groq</h4>
+                            <p>Testa la velocità di Groq:</p>
+                            <button class="demo-btn" onclick="simulateGroq()">Simula Richiesta Groq</button>
+                            <div id="groqDemo" style="display:none; margin-top:1rem; text-align:left;">
+                                <div style="background:#e8f5e8; padding:1rem; border-radius:8px; margin:0.5rem 0;">
+                                    <strong>⚡ Groq (llama-3.1-8b-instant):</strong> Risposta in ~0.3 secondi
+                                </div>
+                                <div style="background:#f3e5f5; padding:1rem; border-radius:8px; margin:0.5rem 0;">
+                                    <strong>AI:</strong> ggplot2 è un potente pacchetto R per creare grafici usando la "grammar of graphics". Permette di costruire visualizzazioni layer per layer, partendo dai dati, mappando le variabili agli elementi estetici, e aggiungendo geometrie come punti, linee o barre.
+                                </div>
+                                <div style="background:#fff3e0; padding:1rem; border-radius:8px; margin:0.5rem 0;">
+                                    <strong>⏱️ Velocità:</strong> ~300 tokens/sec (circa 10x più veloce di altri provider)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-header" onclick="toggleStep(this)">
+                        <h3>Step 7: Casi d'Uso Specifici</h3>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="step-content">
+                        <p>groqR eccelle in scenari specifici:</p>
+                        
+                        <div class="tool-card">
+                            <h4>🚀 Prototipazione Rapida</h4>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">Copia</button>
+<pre># Test rapidi di idee
+for (i in 1:5) {
+  idea <- paste("Variazione", i, "del modello di regressione")
+  
+  suggerimento <- groq_chat(
+    prompt = paste("Suggerisci miglioramenti per:", idea),
+    model = "llama-3.1-8b-instant"
+  )
+  
+  cat("Idea:", idea, "\n")
+  cat("Suggerimento:", suggerimento, "\n\n")
+}</pre>
+                            </div>
+                        </div>
+
+                        <div class="tool-card">
+                            <h4>🔄 Batch Processing</h4>
+                            <div class="code-block">
+                                <button class="copy-btn" onclick="copyCode(this)">Copia</button>
+<pre># Analisi batch di dataset multipli
+datasets <- c("mtcars", "iris", "diamonds")
+
+analisi_batch <- lapply(datasets, function(ds) {
+  prompt <- paste("Suggerisci 3 analisi interessanti per il dataset", ds)
+  
+  groq_chat(
+    prompt = prompt,
+    model = "llama-3.1-70b-versatile",
+    max_tokens = 500
+  )
+})
+
+names(analisi_batch) <- datasets</pre>
+                            </div>
+                        </div>
+
+                        <div class="warning">
+                            <strong>⚠️ Limitazioni:</strong>
+                            <ul>
+                                <li>Rate limits sui token al minuto</li>
+                                <li>Modelli open-source (non proprietari come GPT-4)</li>
+                                <li>Documentazione ancora in evoluzione</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 5: Conclusioni -->
+            <div class="tab-content">
+                <h2>🎯 Mettere Tutto Insieme</h2>
+                
+                <div class="tool-card">
+                    <h3>🚀 Workflow Integrato</h3>
+                    <p>Ecco come utilizzare i quattro strumenti in sinergia per massimizzare la produttività:</p>
+                    
+                    <div class="step">
+                        <div class="step-header" onclick="toggleStep(this)">
+                            <h3>📋 Workflow Tipo: Analisi Dati Completa</h3>
+                            <span class="arrow">▼</span>
+                        </div>
+                        <div class="step-content">
+                            <ol>
+                                <li><strong>Brainstorming Veloce (groqR):</strong>
+                                    <div class="code-block">
+                                        <button class="copy-btn" onclick="copyCode(this)">Copia</button>
+<pre># Genera idee rapidamente con Groq
+idee <- groq_chat(
+  "Suggerisci 5 approcci per analizzare dati di vendite e-commerce",
+  model = "llama-3.1-8b-instant"
+)</pre>
+                                    </div>
+                                </li>
+                                
+                                <li><strong>Pianificazione Dettagliata (ellmer):</strong>
+                                    <div class="code-block">
+                                        <button class="copy-btn" onclick="copyCode(this)">Copia</button>
+<pre># Approfondisci con ellmer
+chat <- chat_anthropic()
+piano_dettagliato <- chat$chat("
+  Basandoti su queste idee: [inserisci idee da groqR]
+  Crea un piano di analisi dettagliato step-by-step
+")</pre>
+                                    </div>
+                                </li>
+                                
+                                <li><strong>Implementazione Rapida (Copilot + gander):</strong>
+                                    <ul>
+                                        <li>Usa <strong>Copilot</strong> per autocompletare il codice base</li>
+                                        <li>Usa <strong>gander</strong> per generare visualizzazioni specifiche</li>
+                                        <li>Usa <strong>groqR</strong> per feedback rapidi durante il coding</li>
+                                    </ul>
+                                </li>
+                                
+                                <li><strong>Iterazione e Testing (groqR):</strong>
+                                    <div class="code-block">
+                                        <button class="copy-btn" onclick="copyCode(this)">Copia</button>
+<pre># Test rapidi di variazioni
+for (metodo in c("lm", "glm", "randomForest")) {
+  feedback <- groq_chat(
+    paste("Pros e cons di usare", metodo, "per il mio dataset"),
+    model = "llama-3.1-70b-versatile"
+  )
+}</pre>
+                                    </div>
+                                </li>
+                                
+                                <li><strong>Documentazione Finale (ellmer):</strong>
+                                    <div class="code-block">
+                                        <button class="copy-btn" onclick="copyCode(this)">Copia</button>
+<pre># Report professionale
+report <- chat$chat("
+  Crea un executive summary dell'analisi completata,
+  includendo metodologia, risultati chiave e raccomandazioni
+")</pre>
+                                    </div>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tool-card">
+                    <h3>📊 Confronto Completo degli Strumenti</h3>
+                    <table style="width:100%; border-collapse: collapse; margin: 1rem 0;">
+                        <thead>
+                            <tr style="background: #007bff; color: white;">
+                                <th style="padding: 0.8rem; border: 1px solid #ddd;">Caratteristica</th>
+                                <th style="padding: 0.8rem; border: 1px solid #ddd;">ellmer</th>
+                                <th style="padding: 0.8rem; border: 1px solid #ddd;">Copilot</th>
+                                <th style="padding: 0.8rem; border: 1px solid #ddd;">gander</th>
+                                <th style="padding: 0.8rem; border: 1px solid #ddd;">groqR</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd; font-weight: 600;">Modalità</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">Chat testuale</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">Autocompletamento</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">Chat contestuale</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">Chat ultra-veloce</td>
+                            </tr>
+                            <tr style="background: #f8f9fa;">
+                                <td style="padding: 0.8rem; border: 1px solid #ddd; font-weight: 600;">Velocità</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">🟡 Media</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">🟢 Istantanea</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">🟡 Media</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">🚀 Ultra-veloce</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd; font-weight: 600;">Consapevolezza Ambiente</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">❌ No</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">⚡ Limitata</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">✅ Completa</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">❌ No</td>
+                            </tr>
+                            <tr style="background: #f8f9fa;">
+                                <td style="padding: 0.8rem; border: 1px solid #ddd; font-weight: 600;">Ideale Per</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">Pianificazione, Q&A</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">Scrittura codice</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">Analisi iterativa</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">Prototipazione, test</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd; font-weight: 600;">Costo</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">💰 Vario</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">💰💰 Abbonamento</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">💰 Dipende da ellmer</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">💰 Competitivo</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>rem; border: 1px solid #ddd;">Autocompletamento</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">Chat contestuale</td>
+                            </tr>
+                            <tr style="background: #f8f9fa;">
+                                <td style="padding: 0.8rem; border: 1px solid #ddd; font-weight: 600;">Consapevolezza Ambiente</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">❌ No</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">⚡ Limitata</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">✅ Completa</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd; font-weight: 600;">Ideale Per</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">Pianificazione, Q&A</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">Scrittura codice</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">Analisi iterativa</td>
+                            </tr>
+                            <tr style="background: #f8f9fa;">
+                                <td style="padding: 0.8rem; border: 1px solid #ddd; font-weight: 600;">Curva di Apprendimento</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">📚 Media</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">🟢 Bassa</td>
+                                <td style="padding: 0.8rem; border: 1px solid #ddd;">🟡 Media-Bassa</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tool-card">
+                    <h3>💡 Best Practices</h3>
+                    <div class="provider-grid">
+                        <div class="provider-card">
+                            <h4>🎯 Prompt Efficaci</h4>
+                            <ul style="text-align: left; font-size: 0.9rem;">
+                                <li>Sii specifico e dettagliato</li>
+                                <li>Fornisci contesto e obiettivi</li>
+                                <li>Usa esempi quando possibile</li>
+                                <li>Specifica il formato desiderato</li>
+                            </ul>
+                        </div>
+                        <div class="provider-card">
+                            <h4>🔒 Sicurezza e Privacy</h4>
+                            <ul style="text-align: left; font-size: 0.9rem;">
+                                <li>Non condividere dati sensibili</li>
+                                <li>Usa chiavi API sicure</li>
+                                <li>Considera modelli locali per privacy</li>
+                                <li>Verifica sempre il codice generato</li>
+                            </ul>
+                        </div>
+                        <div class="provider-card">
+                            <h4>⚡ Ottimizzazione</h4>
+                            <ul style="text-align: left; font-size: 0.9rem;">
+                                <li>Usa groqR per test rapidi</li>
+                                <li>Combina strumenti per task specifici</li>
+                                <li>Configura scorciatoie da tastiera</li>
+                                <li>Usa .Rprofile per configurazioni</li>
+                            </ul>
+                        </div>
+                        <div class="provider-card">
+                            <h4>🎨 Scelta del Tool</h4>
+                            <ul style="text-align: left; font-size: 0.9rem;">
+                                <li>groqR: Idee veloci e test</li>
+                                <li>Copilot: Scrittura codice</li>
+                                <li>gander: Analisi contestuale</li>
+                                <li>ellmer: Conversazioni approfondite</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-header" onclick="toggleStep(this)">
+                        <h3>🔧 Configurazione Completa Finale</h3>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="step-content">
+                        <p>Ecco una configurazione completa da aggiungere al tuo <code>.Rprofile</code>:</p>
+                        
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">Copia</button>
+<pre># === CONFIGURAZIONE COMPLETA AI TOOLS ===
+
+# Caricamento automatico dei pacchetti
+if (interactive()) {
+  suppressMessages({
+    library(ellmer)
+    library(gander)
+    
+    # Prova a caricare groqR se disponibile
+    if (require(groqR, quietly = TRUE)) {
+      groq_available <- TRUE
+    } else {
+      groq_available <- FALSE
+    }
+  })
+  
+  # Configurazione ellmer/gander
+  options(
+    .gander_chat = ellmer::chat_anthropic(
+      model = "claude-3-5-sonnet-20241022",
+      system_prompt = paste(
+        "Sei un assistente R esperto. Fornisci codice pulito,",
+        "ben commentato e seguendo le best practice di tidyverse.",
+        "Spiega brevemente cosa fa il codice quando necessario."
+      )
+    )
+  )
+  
+  # Messaggio di benvenuto
+  cat("🤖 AI Tools caricati:", 
+      "\n  • ellmer: chat LLM completi", 
+      "\n  • gander: chat contestuale (Ctrl+Alt+G)",
+      "\n  • Copilot: disponibile in RStudio")
+  
+  if (groq_available) {
+    cat("\n  • groqR: inferenza ultra-veloce")
+  }
+  
+  cat("\n\n")
+}
+
+# Funzioni helper
+quick_chat <- function(prompt) {
+  if (!exists(".quick_chat_obj")) {
+    .quick_chat_obj <<- ellmer::chat_anthropic()
+  }
+  .quick_chat_obj$chat(prompt)
+}
+
+# Funzione per chat veloce con Groq (se disponibile)
+quick_groq <- function(prompt, model = "llama-3.1-8b-instant") {
+  if (exists("groq_chat")) {
+    groq_chat(prompt = prompt, model = model)
+  } else {
+    message("groqR non è disponibile. Usa quick_chat() invece.")
+  }
+}
+
+# Funzione per confronto velocità
+speed_test <- function(prompt) {
+  cat("🚀 Test di velocità per:", prompt, "\n\n")
+  
+  # Test Groq
+  if (exists("groq_chat")) {
+    start_time <- Sys.time()
+    groq_result <- groq_chat(prompt, model = "llama-3.1-8b-instant")
+    groq_time <- as.numeric(Sys.time() - start_time)
+    cat("⚡ Groq:", groq_time, "secondi\n")
+  }
+  
+  # Test ellmer
+  start_time <- Sys.time()
+  ellmer_result <- quick_chat(prompt)
+  ellmer_time <- as.numeric(Sys.time() - start_time)
+  cat("🧠 ellmer:", ellmer_time, "secondi\n\n")
+  
+  return(list(groq = groq_result, ellmer = ellmer_result))
+}</pre>
+                        </div>
+
+                        <div class="success">
+                            ✅ <strong>Setup Completo!</strong> Riavvia R per applicare le configurazioni.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tool-card">
+                    <h3>📚 Risorse Aggiuntive</h3>
+                    <ul>
+                        <li><strong>ellmer:</strong> <a href="https://ellmer.tidyverse.org/" target="_blank">Documentazione ufficiale</a></li>
+                        <li><strong>Copilot:</strong> <a href="https://docs.github.com/en/copilot" target="_blank">GitHub Copilot Docs</a></li>
+                        <li><strong>gander:</strong> <a href="https://github.com/simonpcouch/gander" target="_blank">Repository GitHub</a></li>
+                        <li><strong>groqR:</strong> <a href="https://github.com/socialresearchcentre/groqR" target="_blank">Repository GitHub</a></li>
+                        <li><strong>Groq Console:</strong> <a href="https://console.groq.com/" target="_blank">console.groq.com</a></li>
+                        <li><strong>Community:</strong> <a href="https://community.rstudio.com/" target="_blank">RStudio Community</a></li>
+                    </ul>
+                </div>
+
+                <div class="interactive-demo">
+                    <h4>🎉 Congratulazioni!</h4>
+                    <p>Hai completato il tutorial completo sui tools AI per R. Ora sei pronto a rivoluzionare il tuo workflow con tutti e quattro gli strumenti!</p>
+                    <button class="demo-btn" onclick="resetProgress()">Ricomincia Tutorial</button>
+                    <button class="demo-btn" onclick="showSummary()">Mostra Riassunto</button>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>© 2025 Tutorial AI Tools per R | Creato con ❤️ per la community R</p>
+            <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">
+                Mantieni sempre aggiornati i tuoi strumenti e consulta la documentazione ufficiale per le ultime novità
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        let currentTab = 0;
+        let progress = 0;
+        
+        function showTab(tabIndex) {
+            // Nascondi tutti i contenuti
+            const contents = document.querySelectorAll('.tab-content');
+            const tabs = document.querySelectorAll('.nav-tab');
+            
+            contents.forEach(content => content.classList.remove('active'));
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Mostra il contenuto selezionato
+            contents[tabIndex].classList.add('active');
+            tabs[tabIndex].classList.add('active');
+            
+            currentTab = tabIndex;
+            updateProgress();
+        }
+        
+        function updateProgress() {
+            progress = ((currentTab + 1) / 6) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+        
+        function toggleStep(header) {
+            const content = header.nextElementSibling;
+            const arrow = header.querySelector('.arrow');
+            
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                arrow.classList.remove('rotate');
+            } else {
+                content.classList.add('active');
+                arrow.classList.add('rotate');
+            }
+        }
+        
+        function copyCode(button) {
+            const codeBlock = button.parentElement;
+            const code = codeBlock.textContent.replace('Copia', '').trim();
+            navigator.clipboard.writeText(code).then(() => {
+                button.textContent = 'Copiato!';
+                button.style.background = '#28a745';
+                setTimeout(() => {
+                    button.textContent = 'Copia';
+                    button.style.background = '#4299e1';
+                }, 2000);
+            });
+        }
+        
+        function simulateChat() {
+            document.getElementById('chatDemo').style.display = 'block';
+        }
+        
+        function simulateGroq() {
+            document.getElementById('groqDemo').style.display = 'block';
+        }
+        
+        function simulateGander() {
+            document.getElementById('ganderDemo').style.display = 'block';
+        }
+        
+        function resetProgress() {
+            showTab(0);
+            // Chiudi tutti gli step aperti
+            document.querySelectorAll('.step-content.active').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.arrow.rotate').forEach(arrow => {
+                arrow.classList.remove('rotate');
+            });
+            
+            // Nascondi demo
+            const demos = document.querySelectorAll('[id$="Demo"]');
+            demos.forEach(demo => demo.style.display = 'none');
+        }
+        
+        function showSummary() {
+            // Crea una finestra modale con il riassunto dettagliato
+            const summaryModal = document.createElement('div');
+            summaryModal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.8);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+            `;
+            
+            summaryModal.innerHTML = `
+                <div style="
+                    background: white;
+                    padding: 2rem;
+                    border-radius: 12px;
+                    max-width: 90%;
+                    max-height: 90%;
+                    overflow-y: auto;
+                    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+                ">
+                    <div style="text-align: center; margin-bottom: 2rem;">
+                        <h2 style="color: #007bff; margin-bottom: 1rem;">🎯 Riassunto Completo Tutorial</h2>
+                        <p style="color: #666;">Tutto quello che hai imparato sui tools AI per R</p>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #007bff;">
+                            <h3 style="color: #007bff; margin-bottom: 1rem;">📦 ellmer</h3>
+                            <strong>Cosa fa:</strong> Interfaccia principale per LLM<br><br>
+                            <strong>Installazione:</strong><br>
+                            <code>install.packages("ellmer")</code><br><br>
+                            <strong>Fornitori supportati:</strong><br>
+                            • OpenAI (GPT-4o, GPT-4o-mini)<br>
+                            • Anthropic (Claude Sonnet)<br>
+                            • Google (Gemini)<br>
+                            • Ollama (locale)<br>
+                            • Azure, AWS, e molti altri<br><br>
+                            <strong>Ideale per:</strong> Pianificazione, Q&A, chat strutturate
+                        </div>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #28a745;">
+                            <h3 style="color: #28a745; margin-bottom: 1rem;">👨‍💻 GitHub Copilot</h3>
+                            <strong>Cosa fa:</strong> AI pair programmer<br><br>
+                            <strong>Configurazione:</strong><br>
+                            Tools → Global Options → Copilot<br><br>
+                            <strong>Funzionalità:</strong><br>
+                            • Autocompletamento intelligente<br>
+                            • Suggerimenti "ghost text"<br>
+                            • Q&A con commenti<br>
+                            • Contesto del progetto<br><br>
+                            <strong>Ideale per:</strong> Scrittura rapida di codice
+                        </div>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #ffc107;">
+                            <h3 style="color: #e67e22; margin-bottom: 1rem;">🎯 gander</h3>
+                            <strong>Cosa fa:</strong> Chat consapevole dell'ambiente<br><br>
+                            <strong>Installazione:</strong><br>
+                            <code>install.packages("gander")</code><br><br>
+                            <strong>Configurazione:</strong><br>
+                            <code>options(.gander_chat = ellmer::chat_anthropic())</code><br><br>
+                            <strong>Scorciatoia:</strong> Ctrl+Alt+G<br><br>
+                            <strong>Ideale per:</strong> Analisi iterativa con contesto
+                        </div>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #dc3545;">
+                            <h3 style="color: #dc3545; margin-bottom: 1rem;">⚡ groqR</h3>
+                            <strong>Cosa fa:</strong> Inferenza ultra-veloce<br><br>
+                            <strong>Installazione:</strong><br>
+                            <code>devtools::install_github("socialresearchcentre/groqR")</code><br><br>
+                            <strong>Modelli:</strong><br>
+                            • Llama 3.1 (8B, 70B, 405B)<br>
+                            • Mixtral 8x7B<br>
+                            • Gemma 7B, 2B<br><br>
+                            <strong>Ideale per:</strong> Prototipazione rapida, test iterativi
+                        </div>
+                    </div>
+                    
+                    <div style="background: #e3f2fd; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                        <h3 style="color: #1976d2; margin-bottom: 1rem;">🚀 Workflow Integrato Consigliato</h3>
+                        <ol style="line-height: 1.8;">
+                            <li><strong>Brainstorming veloce:</strong> Usa <strong>groqR</strong> per generare idee rapidamente</li>
+                            <li><strong>Pianificazione:</strong> Usa <strong>ellmer</strong> per definire l'approccio analitico dettagliato</li>
+                            <li><strong>Scrittura base:</strong> Usa <strong>Copilot</strong> per autocompletamento rapido</li>
+                            <li><strong>Iterazione rapida:</strong> Usa <strong>gander</strong> per visualizzazioni e raffinamenti</li>
+                            <li><strong>Test e validazione:</strong> Usa <strong>groqR</strong> per feedback veloci durante il coding</li>
+                            <li><strong>Documentazione:</strong> Torna a <strong>ellmer</strong> per report e spiegazioni complete</li>
+                        </ol>
+                    </div>
+                    
+                    <div style="background: #fff3cd; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                        <h3 style="color: #856404; margin-bottom: 1rem;">💡 Best Practices Essenziali</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div>
+                                <strong>🎯 Prompt efficaci:</strong><br>
+                                • Sii specifico e dettagliato<br>
+                                • Fornisci contesto e obiettivi<br>
+                                • Usa esempi quando possibile<br>
+                                • Specifica il formato desiderato
+                            </div>
+                            <div>
+                                <strong>🔒 Sicurezza:</strong><br>
+                                • Usa variabili d'ambiente per API keys<br>
+                                • Non condividere dati sensibili<br>
+                                • Verifica sempre il codice generato<br>
+                                • Considera modelli locali per privacy
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #d4edda; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                        <h3 style="color: #155724; margin-bottom: 1rem;">⚙️ Configurazione .Rprofile Finale</h3>
+                        <pre style="background: #f8f9fa; padding: 1rem; border-radius: 4px; overflow-x: auto; font-size: 0.9rem;"># === CONFIGURAZIONE AI TOOLS ===
+if (interactive()) {
+  suppressMessages({
+    library(ellmer)
+    library(gander)
+    if (require(groqR, quietly = TRUE)) groq_available <- TRUE
+  })
+  
+  options(.gander_chat = ellmer::chat_anthropic())
+  
+  cat("🤖 AI Tools caricati e pronti!\\n")
+  if (exists("groq_available")) cat("⚡ groqR: ultra-veloce\\n")
+}</pre>
+                    </div>
+                    
+                    <div style="text-align: center;">
+                        <button onclick="this.parentElement.parentElement.parentElement.remove()" 
+                                style="background: #007bff; color: white; border: none; padding: 0.8rem 2rem; 
+                                       border-radius: 6px; cursor: pointer; font-size: 1rem;">
+                            Chiudi Riassunto
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(summaryModal);
+            
+            // Chiudi cliccando fuori dalla modale
+            summaryModal.addEventListener('click', function(e) {
+                if (e.target === summaryModal) {
+                    summaryModal.remove();
+                }
+            });
+        }
+        
+        // Inizializza il tutorial
+        updateProgress();
+        
+        // Auto-espandi il primo step di ogni tab per facilitare la navigazione
+        document.addEventListener('DOMContentLoaded', function() {
+            // Aggiungi effetto hover alle card dei fornitori
+            document.querySelectorAll('.provider-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px) scale(1.02)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
