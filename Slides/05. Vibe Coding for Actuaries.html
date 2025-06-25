@@ -311,6 +311,27 @@
             border-radius: 4px;
             font-weight: 600;
         }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
     </style>
 </head>
 <body>
@@ -379,7 +400,7 @@
                         <p>Iniziamo installando ellmer dal repository CRAN:</p>
                         <div class="code-block">
                             <button class="copy-btn" onclick="copyCode(this)">Copia</button>
-<pre># Installazione del pacchetto ellmer
+                            <pre># Installazione del pacchetto ellmer
 install.packages("ellmer")
 
 # Caricamento della libreria
@@ -404,7 +425,7 @@ library(ellmer)</pre>
                                 <h4>Anthropic Claude</h4>
                                 <div class="code-block">
                                     <button class="copy-btn" onclick="copyCode(this)">Copia</button>
-<pre># Configurazione per Anthropic Claude
+                                    <pre># Configurazione per Anthropic Claude
 chat_anthropic()</pre>
                                 </div>
                             </div>
@@ -412,7 +433,7 @@ chat_anthropic()</pre>
                                 <h4>OpenAI GPT</h4>
                                 <div class="code-block">
                                     <button class="copy-btn" onclick="copyCode(this)">Copia</button>
-<pre># Configurazione per OpenAI GPT
+                                    <pre># Configurazione per OpenAI GPT
 chat_openai()</pre>
                                 </div>
                             </div>
@@ -420,7 +441,7 @@ chat_openai()</pre>
                                 <h4>Google Gemini</h4>
                                 <div class="code-block">
                                     <button class="copy-btn" onclick="copyCode(this)">Copia</button>
-<pre># Configurazione per Google Gemini
+                                    <pre># Configurazione per Google Gemini
 chat_google_gemini()</pre>
                                 </div>
                             </div>
@@ -428,7 +449,7 @@ chat_google_gemini()</pre>
                                 <h4>Ollama (Locale)</h4>
                                 <div class="code-block">
                                     <button class="copy-btn" onclick="copyCode(this)">Copia</button>
-<pre># Configurazione per Ollama (modelli locali)
+                                    <pre># Configurazione per Ollama (modelli locali)
 chat_ollama()</pre>
                                 </div>
                             </div>
@@ -455,7 +476,7 @@ chat_ollama()</pre>
                         
                         <div class="code-block">
                             <button class="copy-btn" onclick="copyCode(this)">Copia</button>
-<pre># Metodo 1: Variabile d'ambiente (RACCOMANDATO)
+                            <pre># Metodo 1: Variabile d'ambiente (RACCOMANDATO)
 # Aggiungi al tuo .Renviron:
 
 # OPENAI_API_KEY=tua_chiave_qui
@@ -481,7 +502,7 @@ Sys.setenv(OPENAI_API_KEY = "tua_chiave_qui")</pre>
                         
                         <div class="code-block">
                             <button class="copy-btn" onclick="copyCode(this)">Copia</button>
-<pre># Caricamento della libreria ellmer
+                            <pre># Caricamento della libreria ellmer
 library(ellmer)
 
 # Creazione di un oggetto chat
@@ -526,7 +547,7 @@ print(risposta)</pre>
                         
                         <div class="code-block">
                             <button class="copy-btn" onclick="copyCode(this)">Copia</button>
-<pre># Console interattiva in R
+                            <pre># Console interattiva in R
 live_console(chat)
 
 # Interfaccia browser per chat
@@ -601,7 +622,7 @@ chat$chat(
                         
                         <div class="code-block">
                             <button class="copy-btn" onclick="copyCode(this)">Copia</button>
-<pre># Inizia a digitare un commento descrittivo
+                            <pre># Inizia a digitare un commento descrittivo
 # Crea un grafico a dispersione di mpg vs wt dal dataset mtcars
 
 # Copilot suggerirà automaticamente:
@@ -640,7 +661,7 @@ ggplot(mtcars, aes(x = wt, y = mpg)) +
                             <h4>🎯 Commenti Efficaci</h4>
                             <div class="code-block">
                                 <button class="copy-btn" onclick="copyCode(this)">Copia</button>
-<pre># BUONO: Specifico e chiaro
+                                <pre># BUONO: Specifico e chiaro
 # Crea una funzione che calcola la media mobile di una serie temporale
 
 # OTTIMO: Include dettagli tecnici
@@ -653,7 +674,7 @@ ggplot(mtcars, aes(x = wt, y = mpg)) +
                             <h4>❓ Q&A con Copilot</h4>
                             <div class="code-block">
                                 <button class="copy-btn" onclick="copyCode(this)">Copia</button>
-<pre># q: Qual è la differenza tra data.frame e tibble?
+                                <pre># q: Qual è la differenza tra data.frame e tibble?
 
 # a: tibble è una versione moderna di data.frame con:
 # - Stampa più pulita e informativa
@@ -699,7 +720,7 @@ ggplot(mtcars, aes(x = wt, y = mpg)) +
                         
                         <div class="code-block">
                             <button class="copy-btn" onclick="copyCode(this)">Copia</button>
-<pre># Versione CRAN (stabile)
+                            <pre># Versione CRAN (stabile)
 install.packages("gander")
 
 # Versione di sviluppo (più recente)
@@ -721,7 +742,7 @@ library(gander)</pre>
                         
                         <div class="code-block">
                             <button class="copy-btn" onclick="copyCode(this)">Copia</button>
-# Configura il modello (esempio con Claude)
+                            <pre># Configura il modello (esempio con Claude)
 options(.gander_chat = ellmer::chat_anthropic())
 
 # Oppure con OpenAI
@@ -731,7 +752,7 @@ options(.gander_chat = ellmer::chat_openai(model = "gpt-4o"))
 usethis::edit_r_profile()
 
 # Poi incolla: 
-options(.gander_chat = ellmer::chat_anthropic())
+options(.gander_chat = ellmer::chat_anthropic())</pre>
                         </div>
 
                         <div class="info">
@@ -761,7 +782,7 @@ options(.gander_chat = ellmer::chat_anthropic())
                             <h4>💜 In Positron:</h4>
                             <div class="code-block">
                                 <button class="copy-btn" onclick="copyCode(this)">Copia</button>
-<pre>// Apri Command Palette → "Open Keyboard Shortcuts (JSON)"
+                                <pre>// Apri Command Palette → "Open Keyboard Shortcuts (JSON)"
 // Aggiungi questa configurazione:
 
 {
@@ -788,7 +809,7 @@ options(.gander_chat = ellmer::chat_anthropic())
                             <h4>🔍 Scenario 1: Analisi Esplorativa</h4>
                             <div class="code-block">
                                 <button class="copy-btn" onclick="copyCode(this)">Copia</button>
-<pre># Carica i tuoi dati
+                                <pre># Carica i tuoi dati
 data(iris)
 df <- iris
 
@@ -915,7 +936,7 @@ ggplot(df, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
                         
                         <div class="code-block">
                             <button class="copy-btn" onclick="copyCode(this)">Copia</button>
-<pre># Installazione da GitHub
+                            <pre># Installazione da GitHub
 if (!require(devtools)) install.packages("devtools")
 devtools::install_github("socialresearchcentre/groqR")
 
@@ -939,7 +960,7 @@ library(groqR)</pre>
                         
                         <div class="code-block">
                             <button class="copy-btn" onclick="copyCode(this)">Copia</button>
-<pre># Metodo 1: Variabile d'ambiente (RACCOMANDATO)
+                            <pre># Metodo 1: Variabile d'ambiente (RACCOMANDATO)
 # Aggiungi al tuo .Renviron:
 
 # GROQ_API_KEY=tua_chiave_groq_qui
@@ -974,7 +995,7 @@ groq_api_key_set()</pre>
                         
                         <div class="code-block">
                             <button class="copy-btn" onclick="copyCode(this)">Copia</button>
-<pre># Visualizza tutti i modelli disponibili
+                            <pre># Visualizza tutti i modelli disponibili
 modelli_disponibili <- groq_models()
 print(modelli_disponibili)</pre>
                         </div>
@@ -1011,7 +1032,7 @@ print(modelli_disponibili)</pre>
                         
                         <div class="code-block">
                             <button class="copy-btn" onclick="copyCode(this)">Copia</button>
-<pre># Chat semplice con Llama 3.1
+                            <pre># Chat semplice con Llama 3.1
 risposta <- groq_chat(
   prompt = "Spiega in modo semplice cosa è ggplot2 in R",
   model = "llama-3.1-8b-instant"
@@ -1024,7 +1045,7 @@ print(risposta)</pre>
                             <h4>🔧 Parametri Principali:</h4>
                             <div class="code-block">
                                 <button class="copy-btn" onclick="copyCode(this)">Copia</button>
-<pre># Configurazione avanzata
+                                <pre># Configurazione avanzata
 risposta <- groq_chat(
   prompt = "Il tuo prompt qui",
   model = "llama-3.1-70b-versatile",
@@ -1047,7 +1068,7 @@ risposta <- groq_chat(
                         
                         <div class="code-block">
                             <button class="copy-btn" onclick="copyCode(this)">Copia</button>
-<pre># Usa Groq con ellmer (se supportato)
+                            <pre># Usa Groq con ellmer (se supportato)
 # Nota: Verifica la compatibilità con la versione di ellmer
 chat_groq <- ellmer::chat_groq(
   model = "llama-3.1-70b-versatile"
@@ -1094,7 +1115,7 @@ options(.gander_chat_groq = function(prompt) {
                             <h4>🚀 Prototipazione Rapida</h4>
                             <div class="code-block">
                                 <button class="copy-btn" onclick="copyCode(this)">Copia</button>
-<pre># Test rapidi di idee
+                                <pre># Test rapidi di idee
 for (i in 1:5) {
   idea <- paste("Variazione", i, "del modello di regressione")
   
@@ -1113,7 +1134,7 @@ for (i in 1:5) {
                             <h4>🔄 Batch Processing</h4>
                             <div class="code-block">
                                 <button class="copy-btn" onclick="copyCode(this)">Copia</button>
-<pre># Analisi batch di dataset multipli
+                                <pre># Analisi batch di dataset multipli
 datasets <- c("mtcars", "iris", "diamonds")
 
 analisi_batch <- lapply(datasets, function(ds) {
@@ -1160,7 +1181,7 @@ names(analisi_batch) <- datasets</pre>
                                 <li><strong>Brainstorming Veloce (groqR):</strong>
                                     <div class="code-block">
                                         <button class="copy-btn" onclick="copyCode(this)">Copia</button>
-<pre># Genera idee rapidamente con Groq
+                                        <pre># Genera idee rapidamente con Groq
 idee <- groq_chat(
   "Suggerisci 5 approcci per analizzare dati di vendite e-commerce",
   model = "llama-3.1-8b-instant"
@@ -1171,7 +1192,7 @@ idee <- groq_chat(
                                 <li><strong>Pianificazione Dettagliata (ellmer):</strong>
                                     <div class="code-block">
                                         <button class="copy-btn" onclick="copyCode(this)">Copia</button>
-<pre># Approfondisci con ellmer
+                                        <pre># Approfondisci con ellmer
 chat <- chat_anthropic()
 piano_dettagliato <- chat$chat("
   Basandoti su queste idee: [inserisci idee da groqR]
@@ -1191,7 +1212,7 @@ piano_dettagliato <- chat$chat("
                                 <li><strong>Iterazione e Testing (groqR):</strong>
                                     <div class="code-block">
                                         <button class="copy-btn" onclick="copyCode(this)">Copia</button>
-<pre># Test rapidi di variazioni
+                                        <pre># Test rapidi di variazioni
 for (metodo in c("lm", "glm", "randomForest")) {
   feedback <- groq_chat(
     paste("Pros e cons di usare", metodo, "per il mio dataset"),
@@ -1204,7 +1225,7 @@ for (metodo in c("lm", "glm", "randomForest")) {
                                 <li><strong>Documentazione Finale (ellmer):</strong>
                                     <div class="code-block">
                                         <button class="copy-btn" onclick="copyCode(this)">Copia</button>
-<pre># Report professionale
+                                        <pre># Report professionale
 report <- chat$chat("
   Crea un executive summary dell'analisi completata,
   includendo metodologia, risultati chiave e raccomandazioni
@@ -1218,74 +1239,51 @@ report <- chat$chat("
 
                 <div class="tool-card">
                     <h3>📊 Confronto Completo degli Strumenti</h3>
-                    <table style="width:100%; border-collapse: collapse; margin: 1rem 0;">
+                    <table>
                         <thead>
-                            <tr style="background: #007bff; color: white;">
-                                <th style="padding: 0.8rem; border: 1px solid #ddd;">Caratteristica</th>
-                                <th style="padding: 0.8rem; border: 1px solid #ddd;">ellmer</th>
-                                <th style="padding: 0.8rem; border: 1px solid #ddd;">Copilot</th>
-                                <th style="padding: 0.8rem; border: 1px solid #ddd;">gander</th>
-                                <th style="padding: 0.8rem; border: 1px solid #ddd;">groqR</th>
+                            <tr>
+                                <th>Caratteristica</th>
+                                <th>ellmer</th>
+                                <th>Copilot</th>
+                                <th>gander</th>
+                                <th>groqR</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd; font-weight: 600;">Modalità</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">Chat testuale</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">Autocompletamento</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">Chat contestuale</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">Chat ultra-veloce</td>
-                            </tr>
-                            <tr style="background: #f8f9fa;">
-                                <td style="padding: 0.8rem; border: 1px solid #ddd; font-weight: 600;">Velocità</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">🟡 Media</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">🟢 Istantanea</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">🟡 Media</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">🚀 Ultra-veloce</td>
+                                <td><strong>Modalità</strong></td>
+                                <td>Chat testuale</td>
+                                <td>Autocompletamento</td>
+                                <td>Chat contestuale</td>
+                                <td>Chat ultra-veloce</td>
                             </tr>
                             <tr>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd; font-weight: 600;">Consapevolezza Ambiente</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">❌ No</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">⚡ Limitata</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">✅ Completa</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">❌ No</td>
-                            </tr>
-                            <tr style="background: #f8f9fa;">
-                                <td style="padding: 0.8rem; border: 1px solid #ddd; font-weight: 600;">Ideale Per</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">Pianificazione, Q&A</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">Scrittura codice</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">Analisi iterativa</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">Prototipazione, test</td>
+                                <td><strong>Velocità</strong></td>
+                                <td>🟡 Media</td>
+                                <td>🟢 Istantanea</td>
+                                <td>🟡 Media</td>
+                                <td>🚀 Ultra-veloce</td>
                             </tr>
                             <tr>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd; font-weight: 600;">Costo</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">💰 Vario</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">💰💰 Abbonamento</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">💰 Dipende da ellmer</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">💰 Competitivo</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>rem; border: 1px solid #ddd;">Autocompletamento</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">Chat contestuale</td>
-                            </tr>
-                            <tr style="background: #f8f9fa;">
-                                <td style="padding: 0.8rem; border: 1px solid #ddd; font-weight: 600;">Consapevolezza Ambiente</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">❌ No</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">⚡ Limitata</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">✅ Completa</td>
+                                <td><strong>Consapevolezza Ambiente</strong></td>
+                                <td>❌ No</td>
+                                <td>⚡ Limitata</td>
+                                <td>✅ Completa</td>
+                                <td>❌ No</td>
                             </tr>
                             <tr>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd; font-weight: 600;">Ideale Per</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">Pianificazione, Q&A</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">Scrittura codice</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">Analisi iterativa</td>
+                                <td><strong>Ideale Per</strong></td>
+                                <td>Pianificazione, Q&A</td>
+                                <td>Scrittura codice</td>
+                                <td>Analisi iterativa</td>
+                                <td>Prototipazione, test</td>
                             </tr>
-                            <tr style="background: #f8f9fa;">
-                                <td style="padding: 0.8rem; border: 1px solid #ddd; font-weight: 600;">Curva di Apprendimento</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">📚 Media</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">🟢 Bassa</td>
-                                <td style="padding: 0.8rem; border: 1px solid #ddd;">🟡 Media-Bassa</td>
+                            <tr>
+                                <td><strong>Costo</strong></td>
+                                <td>💰 Vario</td>
+                                <td>💰💰 Abbonamento</td>
+                                <td>💰 Dipende da ellmer</td>
+                                <td>💰 Competitivo</td>
                             </tr>
                         </tbody>
                     </table>
@@ -1343,7 +1341,7 @@ report <- chat$chat("
                         
                         <div class="code-block">
                             <button class="copy-btn" onclick="copyCode(this)">Copia</button>
-<pre># === CONFIGURAZIONE COMPLETA AI TOOLS ===
+                            <pre># === CONFIGURAZIONE COMPLETA AI TOOLS ===
 
 # Caricamento automatico dei pacchetti
 if (interactive()) {
