@@ -1387,7 +1387,7 @@ run_actuarial_dashboard <- function() {
 }
 
 # Inizializzazione e avvio
-Sys.setenv(GROQ_API_KEY = "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")
+Sys.setenv(GROQ_API_KEY = "gsk_*************")
 
 if(interactive()) {
   initialize_environment()
